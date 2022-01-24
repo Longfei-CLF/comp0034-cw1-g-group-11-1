@@ -10,7 +10,7 @@ import plotly.express as px
 from dash import dcc
 from dash import html
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = ["https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
