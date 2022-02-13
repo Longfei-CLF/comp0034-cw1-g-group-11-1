@@ -16,7 +16,7 @@ external_stylesheets = ["https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.
 app = dash.Dash(__name__, 
     external_stylesheets=external_stylesheets)
 
-data = "Test/volcano_stats/data/Geo_Eruption_Results.xlsx"
+data = "volcano_stats/data/Geo_Eruption_Results.xlsx"
 df = pd.read_excel(data)
 
 print(df.info())
@@ -33,6 +33,11 @@ fig = go.Figure(data=go.Choropleth(
     #colorbar_tickprefix = '$',
     colorbar_title = 'VEI',
 ))
+
+fig_VEI = go.Figure(go.Densitymapbox(lat=df.Latitude, lon=df.Longitude, z=df.VEI,
+                                 radius=10))
+fig_VEI.update_layout(mapbox_style="stamen-terrain", mapbox_center_lon=180)
+fig_VEI.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
 
 # assume you have a "long-form" data frame see https://plotly.com/python/px-arguments/ for more options
@@ -58,8 +63,9 @@ app.layout = html.Div(children=[
 
     dcc.Graph(
         id='example-graph',
-        figure=fig
+        figure=fig_VEI
     )
+
 ])
 
 
