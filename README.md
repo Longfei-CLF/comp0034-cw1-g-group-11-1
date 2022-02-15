@@ -19,5 +19,7 @@ This design can be understood by the majority of people without expert knowledge
 Combine with the world map graph, more information was provided as shown in Fig.2. Thus, this graph was designed to answer more professional questions. When the audience selects a volcano, the plot on the right side shows the number of eruptions in a period of time. Moreover, they can adjust the time period by sliding the bottom icon. The number of eruptions versus eruptions years could be used to predict the activity of the volcano (Venzke, 2013). This is essential when scientists want to predict the eruption of a specific volcano. Using the line plot expresses the difference between each eruption better. The audience is able to compare the peak value easily from the plot. What is more, the sliding icon has simplified the operations for the audience. They don’t need to put specific starting years or times. Instead, sliding makes the section of the time period much easier. 
 
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig2.png)
+[Fig.2]: Number of Eruptions over the year
+
 
 # Eruption prediciton
