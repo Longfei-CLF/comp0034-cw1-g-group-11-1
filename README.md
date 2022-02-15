@@ -22,4 +22,7 @@ Combine with the world map graph, more information was provided as shown in Fig.
 [Fig.2]: Number of Eruptions over the year
 
 
+![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.3.png)
+[Fig.3]: Volcano Eruption Index in a specific year 
+
 # Eruption prediciton
