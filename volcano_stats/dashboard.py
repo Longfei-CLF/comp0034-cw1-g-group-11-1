@@ -19,7 +19,7 @@ external_stylesheets=[dbc.themes.BOOTSTRAP, FONT_AWESOME]
 
 app = dash.Dash(__name__, 
     external_stylesheets=external_stylesheets)
-data_path = "/Users/louiswu/PycharmProjects/comp0034-cw1-g-group-11-1/volcano_stats/data/Geo_Eruption_Results.xlsx"
+data_path = "volcano_stats/data/Geo_Eruption_Results.xlsx"
 df = pd.read_excel(data_path)
 country_list = sorted(df.Country.unique())
 volcano_list = sorted(df.Vol_name.unique())
