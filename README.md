@@ -23,7 +23,7 @@ Combine with the world map graph, more information was provided as shown in Fig.
 
 # Eruption prediciton
 
-The second set of plots were designed for eruption predictions. Our target audience is volcanologist and geologists. In Fig.3, this plot was design to indicate the VEI in a specific year. 
+The second set of plots were designed for eruption predictions. Our target audience is volcanologist and geologists who intended to predict the volcano or continental plate activities. To plot this graph, VEI, position of the volcano, and Eruption years were needed. In Fig.3, this plot was design to indicate the VEI in a specific year.  In geography, a large amount of severe volcano eruptions can be caused by unusually plate movement, in which will cause earthquake, flooding to the edge of the continental plate. Fig.3 could provide a clear view of all the VEI in a specific year. Geologist could use these informations to predict the further movement of the plate. More importantly, this forecast could reduce the losses to societies and human. In addition, VEI was represented by a gradient ramp spot, the warmer the color, means the eruption is severe to the neighboring areas. This color design helped scientist to identify the VEI in a more obvious way compare with numbers. From this graph, volcanologist can easily see the trend of VEI of a region which they could build model based on this graph. Furthermore, using the world map to position the eruptions could help scientist to see the density of eruptions. This design helped scents to identify the region that they should pay more attention to.  
 
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.3.png)
 [Fig.3]: Volcano Eruption Index in a specific year 
