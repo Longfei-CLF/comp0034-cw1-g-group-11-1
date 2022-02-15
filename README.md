@@ -8,9 +8,9 @@ Volcano eruption is a natural disaster that hard to predict. Without any forecas
 
 # Overview of the volcanos around the world
 
-For the location plot. We decide to highlight all volcanoes on a world map. Our target audience is geologist who wants to analysis the characteristics of the volcano. 
+In Fig.1, all volcanoes were highlighted on a world map. Since this is only a general graph, our target audience includes a wide range of people such as geologists, volcano enthusiasts, and local government. Moreover, this graphic design was intended to answers general information about volcanoes such as the total number of eruptions, average Eruption Duration, and VEI. They could play around with this graph to see the distribution of volcanoes. Also, the audience could use select boxes to filter the countries and volcanoes they want to look into. In order to position the volcano, we need longitude and latitude from the dataset and the corresponding volcano name on that coordinate. 
 
-For instance, most volcano located in the seismic belt. Geologist could use our volcano map to see the exact location of volcano and its surrounding area. This information could help them to speculate the formation of the volcano. For instance, If the volcano is nearby a joint between continent, it might be formed by plate movement. Moreover when we put all the volcanoes in the same map, it is easy to see the distribution of the volcano. Some area have a high density of volcano and some area rarely have a volcano. Geologist could investigate the characteristics of these areas.  The data needed for this visualization is the longitude and latitude of the volcano which is already prepared the original dataset. 
+This design can be understood by the majority of people without expert knowledge which is appropriate for a wide range of audiences. Using the small blue spot to represent the volcano makes the audience easy to see and select them by moving the cursor.  
 
 
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig1.png)
