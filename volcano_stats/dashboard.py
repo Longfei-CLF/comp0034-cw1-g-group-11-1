@@ -19,7 +19,7 @@ external_stylesheets=[dbc.themes.BOOTSTRAP, FONT_AWESOME]
 
 app = dash.Dash(__name__, 
     external_stylesheets=external_stylesheets)
-data_path = "volcano_stats/data/Geo_Eruption_Results.xlsx"
+data_path = "/Users/louiswu/PycharmProjects/comp0034-cw1-g-group-11-1/volcano_stats/data/Geo_Eruption_Results.xlsx"
 df = pd.read_excel(data_path)
 country_list = sorted(df.Country.unique())
 volcano_list = sorted(df.Vol_name.unique())
@@ -222,6 +222,8 @@ def plot_NumErup_Dur(df):
 # Create Tabs https://dash.plotly.com/dash-core-components/tabs
 @app.callback(Output('tabs-content-graph', 'children'),
               Input('tabs-graph', 'value'))
+
+
 def render_content(tab):
     if tab == 'tab-1-overview':
         return html.Div([
@@ -229,10 +231,47 @@ def render_content(tab):
             html.Div(children=[
                 html.H2(children='General information about volcanos')
             ],),
-                     
+
             html.Div([
-                row
-            ],),
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Total number of eruptions", className="card-title"),
+                    ], id="Tot_Erup")
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Average Eruption Duration ", className="card-title"),
+                    ], id="Avg_ErupDur")
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Max VEI", className="card-title"),
+                    ], id="Max_VEI")
+
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+            ]),
+
+            html.Div([
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Total number of eruptions", className="card-title"),
+                    ], id="Tot_Erup")
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Total number of eruptions", className="card-title"),
+                    ], id="Avg_ErupDur")
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+                dbc.Card(
+                    children=[dbc.CardBody([
+                        html.H4("Total number of eruptions", className="card-title"),
+                    ],  id="Max_VEI")
+
+
+                    ], style={'width': '33%', 'display': 'inline-block'}),
+            ]),
+
+
 
             # figure
             html.Div([
@@ -240,32 +279,15 @@ def render_content(tab):
                     dcc.Graph(
                     id='General_position',
                     hoverData={'points': [{'customdata': 'Kikai'}]}
-                    )
-                ],style={'width': '49%', 'padding': '0 20'}),
+                    ),
+                ],style={'width': '50%', 'padding': '0 20','display': 'inline-block'}),
 
                 html.Div([
-                    html.Div([
                         dcc.Graph(id='NumErup')
-                    ],style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
+                ],style={'width': '50%', 'display': 'inline-block', 'padding': '0 20'}),
 
-                    html.Div([
-                        dbc.Card(
-                            children = [dbc.CardBody([
-                                html.H4("Total number of eruptions", className="card-title"),
-                                ], id="Tot_Erup")
-                            ]),
-                        dbc.Card(
-                            children = [dbc.CardBody([
-                                html.H4("Total number of eruptions", className="card-title"),
-                                ], id="Avg_ErupDur")
-                            ]),
-                        dbc.Card(
-                            children = [dbc.CardBody([
-                                html.H4("Total number of eruptions", className="card-title"),
-                                ], id="Max_VEI")
-                            ]),
-                    ],style={'width': '24%', 'display': 'inline-block', 'padding': '0 20'}),
-                ],),
+
+
             ],),
         ],),
 
@@ -364,34 +386,72 @@ def update_fig_NumErup_Dur(country_value):
 app.layout = html.Div([
     # Introduction Part
     html.Div(children=[
-        html.H1(children='Volcano Stats'),
-        html.Div(children='''Interested in volcanos? Play around the figures!'''),
-        # Filters https://dash.plotly.com/layout
-        html.Div(children=[
-            html.Label('Choose the country or region'),
-            dcc.Dropdown(
-                options=[{'label':x, 'value':x} for x in country_list] + [{'label': 'All', 'value': 'all_values'}],
-                value='all_values',
-                multi=True,
-                id='crossfilter_country'
-            ),
 
-            html.Label('Choose the volcano eruption index (VEI)'),
-            dcc.RadioItems(
-                id="crossfilter_VEI",
-                options=['1', '2', '3', '4', '5', '6'],
-                value='1',
-                labelStyle={"display": "inline-block"},
-            ),                                
-        ],style={'padding': 10, 'flex': 1}),
+        html.Div(children=[
+            html.Img(
+                src="assets/1.png",
+                style={"width": "75%", "height": "75%"}),
+        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+        html.Div(children=[
+            html.H1(children='Volcano Stats'),
+            html.Div(children='''Professional Vocanol Analysis: Play around with the figures'''),
+        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+
+        # Filters https://dash.plotly.com/layout
+
+        html.Div(children=[
+            html.Div(children=[
+                html.Label('Choose the country or region'),
+                dcc.Dropdown(
+                    options=[{'label': x, 'value': x} for x in country_list] + [
+                        {'label': 'All', 'value': 'all_values'}],
+                    value='all_values',
+                    multi=True,
+                    id='crossfilter_country'
+                ),
+                html.Label('Choose the volcano'),
+                dcc.Dropdown(
+                    options=[{'label': x, 'value': x} for x in volcano_list] + [
+                        {'label': 'All', 'value': 'all_values'}],
+                    value='all_values',
+                    multi=True,
+                    id='crossfilter_volcano'
+                ),
+            ], style={'padding': 10, 'flex': 1, "width": "30rem", "display": "inline-block"}),
+
+            html.Div(children=[
+                html.Br(),
+                html.Label('Choose the VEI'),
+                dcc.Checklist(
+                    id="crossfilter_checklist_all",
+                    options=[{"label": "Select All", "value": "All"}],
+                    value=["All"],
+                    labelStyle={"display": "inline-block"},
+                ),
+                dcc.Checklist(
+                    id="crossfilter_checklist",
+                    options=[{'label': x, 'value': x} for x in VEI_list],
+                    value=[],
+                    labelStyle={"display": "inline-block", },
+                ),
+            ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+        ], style={'textAlign': 'center'}),
+
+        html.Br(),
+
 
         dcc.Tabs(id="tabs-graph", value='tab-1-overview', children=[
             dcc.Tab(label='Overview', value='tab-1-overview'),
             dcc.Tab(label='Eruption Prediction', value='tab-2-eruption-prediction')
         ]),
+
+
+
         html.Div(id='tabs-content-graph'),
-        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(), 'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
-    ],),
+        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(),
+                        'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
+        ], ),
+
 ])
 
 # Card layout 
@@ -415,6 +475,7 @@ row = html.Div([
             ]),
     ], style={'padding': '25px'}
 )
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
