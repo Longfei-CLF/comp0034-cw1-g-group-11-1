@@ -3,3 +3,5 @@
 
 
 
+![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig1.png)
+
