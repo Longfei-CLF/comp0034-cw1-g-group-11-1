@@ -19,14 +19,13 @@ external_stylesheets=[dbc.themes.BOOTSTRAP, FONT_AWESOME]
 
 app = dash.Dash(__name__, 
     external_stylesheets=external_stylesheets)
-data_path = "Test/volcano_stats/data/Geo_Eruption_Results.xlsx"
+data_path = "volcano_stats/data/Geo_Eruption_Results.xlsx"
 df = pd.read_excel(data_path)
 country_list = sorted(df.Country.unique())
 volcano_list = sorted(df.Vol_name.unique())
 VEI_list = sorted(df.VEI.unique())
 StaYr_list = sorted(df.Sta_yr.unique())
-print(df.info())
-print(df[df['VEI']==int('1')])
+
 # Plot figures
 def plot_vol_position(df):
     """
@@ -42,7 +41,63 @@ def plot_vol_position(df):
                         hover_name="Vol_name", # column added to hover information
                         # size="pop", # size of markers
                         projection="natural earth",
-                        title='Distribution of volcanos all over the world'
+    )
+
+    # Set layout
+    fig.update_layout(
+        title="Distribution of volcanos all over the world",
+    )
+    return fig
+
+def plot_NumErup(df):
+    """
+    Show the trend of number of eruptions verus time  https://plotly.com/python/range-slider/
+    param: df Dataframe the prepared data, xaxis used for plotting
+    return: Line plot of number of eruptions over time
+    rtype: Figure
+    """
+    # Prepare data
+    NumErup = []
+    for i in StaYr_list:
+        count = 0
+        for x in df.Sta_yr:
+            if i == x:
+                count = count + 1
+        NumErup.append(count)
+
+    # Create figure
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(x=StaYr_list, y=NumErup))
+
+    # Set layout
+    fig.update_layout(
+        title="Number of eruptions over the years",
+        xaxis_title="Starting Year",
+        yaxis_title="Number of Eruptions",
+    )
+
+    # Add range slider
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+                buttons=list([
+                    dict(count=1,
+                        label="YTD",
+                        step="year",
+                        stepmode="todate"),
+                    dict(count=1,
+                        label="1y",
+                        step="year",
+                        stepmode="backward"),
+                    dict(step="all")
+                ])
+            ),
+            rangeslider=dict(
+                visible=True
+            ),
+            type="date"
+        )
     )
     return fig
 
@@ -89,16 +144,19 @@ def plot_VEI_density(df):
         steps=steps
     )]
 
-    fig_VEI_density.update_layout(sliders=sliders, title='The volcano eruption index (VEI) of each eruptions over the years')
+    fig_VEI_density.update_layout(sliders=sliders)
     fig_VEI_density.update_layout(mapbox_style="stamen-terrain", mapbox_center_lon=180)
-    # fig_VEI_density.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig_VEI_density.update_layout(
+        title='The volcano eruption index (VEI) of each eruptions over the years',
+        xaxis_title="Starting Year"
+    )    
     return fig_VEI_density
 
-def plot_NumErup(df):
+def plot_NumErup_Dur(df):
     """
-    Show the trend of number of eruptions verus time  https://plotly.com/python/range-slider/
+    Show the trend of number of eruptions and durations verus time  https://plotly.com/python/range-slider/
     param: df Dataframe the prepared data, xaxis used for plotting
-    return: Line plot of number of eruptions over time
+    return: Line plot of number of eruptions and durations over time
     rtype: Figure
     """
     # Prepare data
@@ -110,18 +168,35 @@ def plot_NumErup(df):
                 count = count + 1
         NumErup.append(count)
 
-    # Create figure
-    fig_NumErup = go.Figure()
-    fig_NumErup.add_trace(
-        go.Scatter(x=StaYr_list, y=NumErup))
+    ErupDur_without_Outliner = []
+    for i in StaYr_list:
+        dur_without_Outliner = []
+        row = 0
+        for x in df.Sta_yr:
+            if i == x:
+                day = df.loc[row, 'Erup_dur']
+                if day < 10000:
+                    dur_without_Outliner.append(day)
+            row = row + 1
+        if sum(dur_without_Outliner) == 0:
+            ErupDur_without_Outliner.append(0)
+        else:
+            ErupDur_without_Outliner.append(np.mean(dur_without_Outliner))
 
-    # Set title
-    fig_NumErup.update_layout(
-        title_text="Number of eruptions over the years"
+    # Create figure
+    fig = go.Figure()
+    fig = px.scatter(df, x=StaYr_list, y=NumErup,
+                    size=ErupDur_without_Outliner, size_max=60)
+
+    # Set layout
+    fig.update_layout(
+        title="Number of eruptions & durations over the years",
+        xaxis_title="Starting Year",
+        yaxis_title="Number of Eruptions",
     )
 
     # Add range slider
-    fig_NumErup.update_layout(
+    fig.update_layout(
         xaxis=dict(
             rangeselector=dict(
                 buttons=list([
@@ -142,106 +217,13 @@ def plot_NumErup(df):
             type="date"
         )
     )
-    return fig_NumErup
-
-def plot_ErupDur(df):
-    """
-    Show the eruption duration of 
-    param: df Dataframe the prepared data, xaxis used for plotting
-    return: Eruption duration of eruptions
-    rtype: Figure
-    """
-    ErupDur_without_Outliner = []
-    for i in StaYr_list:
-        dur_without_Outliner = []
-        row = 0
-        for x in df.Sta_yr:
-            if i == x:
-                day = df.loc[row, 'Erup_dur']
-                if day < 10000:
-                    dur_without_Outliner.append(day)
-            row = row + 1
-        if sum(dur_without_Outliner) == 0:
-            ErupDur_without_Outliner.append(0)
-        else:
-            ErupDur_without_Outliner.append(np.mean(dur_without_Outliner))
-        
-    fig_ErupDur = px.scatter(df, x=StaYr_list, y=ErupDur_without_Outliner,
-                    size=ErupDur_without_Outliner, size_max=60)
-    fig_ErupDur.update_layout(
-        title_text="The average eruption duration over the years",
-        xaxis_title = "Eruption Stating Year",
-        yaxis_title = "Average eruption durations (d)"
-    )
-    return fig_ErupDur
-
-fig_VEI_density = plot_VEI_density(df)
-fig_NumErup = plot_NumErup(df)
-fig_ErupDur = plot_ErupDur(df)
-
-# App layout
-app.layout = html.Div([
-    # Introduction Part
-    html.Div(children=[
-        html.H1(children='Volcano Stats'),
-        html.Div(children='''Interested in volcanos? Play around the figures!'''),
-        # Filters https://dash.plotly.com/layout
-        html.Div(children=[
-            html.Label('Choose the country or region'),
-            dcc.Dropdown(
-                options=[{'label':x, 'value':x} for x in country_list] + [{'label': 'All', 'value': 'all_values'}],
-                value='all_values',
-                multi=True,
-                id='crossfilter_country'
-            ),
-
-            html.Label('Choose the volcano eruption index (VEI)'),
-            dcc.RadioItems(
-                id="crossfilter_VEI",
-                options=['1', '2', '3', '4', '5', '6'],
-                value='1',
-                labelStyle={"display": "inline-block"},
-            ),                                
-        ],style={'padding': 10, 'flex': 1}),
-
-        dcc.Tabs(id="tabs-graph", value='tab-1-general-analysis', children=[
-            dcc.Tab(label='General Analysis', value='tab-1-general-analysis'),
-            dcc.Tab(label='Eruption Prediction', value='tab-2-eruption-prediction'),
-            dcc.Tab(label='Number of Eruptions', value='tab-3-NumErup'),
-            dcc.Tab(label='Eruption Durations', value='tab-4-ErupDur'),
-        ]),
-        html.Div(id='tabs-content-graph'),
-        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(), 'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
-    ],),
-])
-
-# Card layout 
-card = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.H4('Test',id='Tot_Erup', className="card-title"),
-                html.P(
-                    "Total Number of Erputions",
-                    className="card-text",
-                ),
-            ]
-        ),
-    ],
-    style={"width": "18rem"},
-)
-row = html.Div([
-        dbc.CardGroup([
-                card,
-            ]),
-    ], style={'padding': '25px'}
-)
+    return fig
 
 # Create Tabs https://dash.plotly.com/dash-core-components/tabs
 @app.callback(Output('tabs-content-graph', 'children'),
               Input('tabs-graph', 'value'))
 def render_content(tab):
-    if tab == 'tab-1-general-analysis':
+    if tab == 'tab-1-overview':
         return html.Div([
             # Text
             html.Div(children=[
@@ -295,77 +277,31 @@ def render_content(tab):
                 html.H2(children='Volcano Eruption Index')
             ],),
             # figure
-            html.Div(children=[
-                dcc.Graph(
-                id='VEI_density',
-                figure=fig_VEI_density)
-            ],),
-        ],)
-    
-    elif tab == 'tab-3-NumErup':
-        # Detailed Analysis
-        return html.Div([
+            html.Div([
+                dcc.Graph(id='VEI_density')
+            ],style={'width': '99%', 'padding': '0 20'}),
+
             # Text
             html.Div(children=[
-                html.H2(children='Number of Eruptions')
+                html.H2(children='Number of Eruptions and Durations')
             ],),
-
-            # figure
-            html.Div(children=[
-                dcc.Graph(
-                id='NumErup',
-                figure=fig_NumErup)
-            ],),
+            html.Div([
+                dcc.Graph(id='NumErup_Dur')
+            ],style={'width': '99%', 'padding': '0 20'}),
         ],)
 
-    elif tab == 'tab-4-ErupDur':
-        # Detailed Analysis
-        return html.Div([
-            # Text
-            html.Div(children=[
-                html.H2(children='Eruption Durations')
-            ],),
-
-            # Filters
-            html.Div(children=[
-                html.Label('Choose the country or region'),
-                dcc.Dropdown(country_list, ['Japan'], multi=True),
-            
-                html.Br(),
-                html.Label('Choose the VEI'),
-                dcc.Checklist(VEI_list, VEI_list, inline=True),
-                # html.Br(),
-                # html.Label('Slider'),
-                # dcc.Slider(
-                # min=min(df['Sta_yr']),
-                # max=max(df['Sta_yr']),
-                # #marks={i: f'Label {i}' if i == 1 else str(i) for i in range(1, 6)},
-                # value=1,
-                # ),
-            ],style={'padding': 10, 'flex': 1}),
-
-            # figure
-            html.Div(children=[
-                dcc.Graph(
-                id='ErupDur',
-                figure=fig_ErupDur)
-            ],),
-        ],)
-
-# Callback for changes in country
+# Callback for changes in country in positions
 @app.callback(
     Output('General_position', 'figure'),
     Input('crossfilter_country', 'value'),
-    Input('crossfilter_VEI', 'value'),
 )
-def update_graph(country_value, VEI_value):
-    df_VEI = df[df['VEI']==int(VEI_value)]    
+def update_fig_vol_position(country_value):
     if type(country_value) != list:
         country_value = [country_value]
-        if country_value != ['all_values']:
-            dff = df_VEI
-        else: dff = df_VEI[df_VEI['Country'].isin(country_value)]
-    else: dff = df_VEI[df_VEI['Country'].isin(country_value)]
+        if country_value == ['all_values']:
+            dff = df
+        else: dff = df[df['Country'].isin(country_value)]
+    else: dff = df[df['Country'].isin(country_value)]
     fig = plot_vol_position(dff)
     fig.update_traces(customdata=dff['Vol_name'])
     fig.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0}, hovermode='closest')
@@ -375,7 +311,7 @@ def update_graph(country_value, VEI_value):
 @app.callback(
     Output('NumErup', 'figure'),
     Input('General_position', 'hoverData'))
-def update_NumErup(hoverData):
+def update_fig_NumErup(hoverData):
     Vol_name_value = hoverData['points'][0]['customdata']
     dff = df[df['Vol_name'] == Vol_name_value]
     return plot_NumErup(dff)
@@ -392,7 +328,93 @@ def update_card_body(hoverData):
     dff = df[df['Vol_name'] == Vol_name_value]
     return str(len(dff)), sum(dff['Erup_dur']/len(dff)), max(dff['VEI'])
 
+# Callback for changes in country in VEI density
+@app.callback(
+    Output('VEI_density', 'figure'),
+    Input('crossfilter_country', 'value'),
+)
+def update_fig_VEI_density(country_value):
+    if type(country_value) != list:
+        country_value = [country_value]
+        if country_value == ['all_values']:
+            dff = df
+        else: dff = df[df['Country'].isin(country_value)]
+    else: dff = df[df['Country'].isin(country_value)]
+    fig = plot_VEI_density(dff)
+    fig.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
+    return fig
 
+# Callback for changes in country in number of eruptions and durations
+@app.callback(
+    Output('NumErup_Dur', 'figure'),
+    Input('crossfilter_country', 'value'),
+)
+def update_fig_NumErup_Dur(country_value):
+    if type(country_value) != list:
+        country_value = [country_value]
+        if country_value == ['all_values']:
+            dff = df
+        else: dff = df[df['Country'].isin(country_value)]
+    else: dff = df[df['Country'].isin(country_value)]
+    fig = plot_NumErup_Dur(dff)
+    fig.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
+    return fig
+
+# App layout
+app.layout = html.Div([
+    # Introduction Part
+    html.Div(children=[
+        html.H1(children='Volcano Stats'),
+        html.Div(children='''Interested in volcanos? Play around the figures!'''),
+        # Filters https://dash.plotly.com/layout
+        html.Div(children=[
+            html.Label('Choose the country or region'),
+            dcc.Dropdown(
+                options=[{'label':x, 'value':x} for x in country_list] + [{'label': 'All', 'value': 'all_values'}],
+                value='all_values',
+                multi=True,
+                id='crossfilter_country'
+            ),
+
+            html.Label('Choose the volcano eruption index (VEI)'),
+            dcc.RadioItems(
+                id="crossfilter_VEI",
+                options=['1', '2', '3', '4', '5', '6'],
+                value='1',
+                labelStyle={"display": "inline-block"},
+            ),                                
+        ],style={'padding': 10, 'flex': 1}),
+
+        dcc.Tabs(id="tabs-graph", value='tab-1-overview', children=[
+            dcc.Tab(label='Overview', value='tab-1-overview'),
+            dcc.Tab(label='Eruption Prediction', value='tab-2-eruption-prediction')
+        ]),
+        html.Div(id='tabs-content-graph'),
+        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(), 'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
+    ],),
+])
+
+# Card layout 
+card = dbc.Card(
+    [
+        dbc.CardBody(
+            [
+                html.H4('Test',id='Tot_Erup', className="card-title"),
+                html.P(
+                    "Total Number of Erputions",
+                    className="card-text",
+                ),
+            ]
+        ),
+    ],
+    style={"width": "18rem"},
+)
+row = html.Div([
+        dbc.CardGroup([
+                card,
+            ]),
+    ], style={'padding': '25px'}
+)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
