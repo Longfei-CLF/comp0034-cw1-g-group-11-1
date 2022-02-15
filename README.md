@@ -21,8 +21,11 @@ Combine with the world map graph, more information was provided as shown in Fig.
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig2.png)
 [Fig.2]: Number of Eruptions over the year
 
+# Eruption prediciton
+
+The second set of plots were designed for eruption predictions. Our target audience is volcanologist and geologists. In Fig.3, this plot was design to indicate the VEI in a specific year. 
 
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.3.png)
 [Fig.3]: Volcano Eruption Index in a specific year 
 
-# Eruption prediciton
+
