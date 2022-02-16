@@ -28,4 +28,9 @@ The second set of plots were designed for eruption predictions. Our target audie
 ![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.3.png)
 [Fig.3]: Volcano Eruption Index in a specific year 
 
+In Fig.4, other information on volcanoes has been designed for predicting the eruption. The data needed is eruption durations and a sum of eruptions at each year. In order to obtain the sum of eruptions, we have written a program to sum the eruptions number per year from our dataset. Our target audiences are volcanologists or geologists who were investigating the frequency of the volcano eruption and eruption prediction. In volcanology, the number of eruptions and durations is a key factor that is used to predict volcano activities. If there is a sudden change of eruption numbers that lasts for a long period, it is evidence that the volcano has released its lava and gas. More importantly, it won’t have the same scale of eruption within 5-10 years. (Turner et al., 2007) This visualization design will be made into a scattered-dot plot in which the size of the dot is corresponding to the eruption duration. Moreover, the x-axis is the Eruption year and the y-axis is the number of eruptions. Thus, this plot can help scientists to identify the eruption scale in a specific period. Also, the frequency of eruptions can be represented by the density of the dots. This design aid scientist to identify the eruption density in a more visualized way.
+
+![image](https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.4.png)
+[Fig.4]: Number of Eruptions and Durations 
+
 
