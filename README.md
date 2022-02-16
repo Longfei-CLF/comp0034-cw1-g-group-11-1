@@ -3,7 +3,7 @@
 
 # Introduction
 
-Volcano eruption is a natural disaster that hard to predict. Without any forecast or contingency plan, volcano eruption might cause tremendous losses to society and humans. However, scientist can make a probability estimation with sufficient long-period eruption data set. (Turner et al., 2007) Thus, in the project, some dimensions such as the number of eruptions, the duration of the eruption and the volcano eruption index (VEI) are presented by visualizing the eruption data. This visualization design could help scientist to predict the possibility of volcano eruptions by using two sets of plot. The first section is a general overview of the volcanoes around the world. The second section is about more specific plot that used to predict the eruption.
+Volcano eruption is a natural disaster that hard to predict. Without any forecast or contingency plan, volcano eruption might cause tremendous losses to society and humans. However, scientist can make a probability estimation with sufficient long-period eruption data set. (Turner et al., 2007) Thus, in the project, some dimensions such as the number of eruptions, the duration of the eruption and the volcano eruption index (VEI) are presented by visualizing the eruption data. ***This visualization design could help scientist to predict the possibility of volcano eruptions by using two sets of plot***. The first section is a general overview of the volcanoes around the world. The second section is about more specific plot that used to predict the eruption.
 
 
 # Overview of the volcanos around the world
@@ -42,9 +42,9 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 # Evaluation
 sd
 
-# Weekly Report </div>
+# Weekly Report  
 
-###Report 1
+### Report 1 
 
 #List what you completed or made progress on this week 
 
@@ -54,7 +54,7 @@ For the project, we investigate the visual design technics for the coursework. A
 
 Build a brief structure for the CW and find a suitable CSS stylesheet. 
 
-###Report 2
+### Report 2
 
 #List what you completed or made progress on this week 
 
@@ -64,7 +64,7 @@ Create a suitable directory structure and find suitable CSS stylesheet. Also, ad
 
 Considering the design technics that suitable for this project.
 
-###Report 3
+### Report 3
 
 #List what you completed or made progress on this week 
 
@@ -77,7 +77,7 @@ Moreover, change the color of the background and chart.
 Plot more charts and Style the chart with respect to the design
 
 
-###Report 4
+### Report 4
 
 #List what you completed or made progress on this week 
 
