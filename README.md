@@ -38,6 +38,11 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 <div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.4.png"/> </div>
 <div align=center> [Fig.4]: Number of Eruptions and Durations </div>
 
+
+# Evaluation
+sd
+# Weekly Report
+sd
 # Bibliography
 
 [1] Turner, M.B., Cronin, S.J., Bebbington, M.S. et al. Developing probabilistic eruption forecasts for dormant volcanoes: a case study from Mt Taranaki, New Zealand. Bull Volcanol 70, 507–515 (2008). https://doi.org/10.1007/s00445-007-0151-4
