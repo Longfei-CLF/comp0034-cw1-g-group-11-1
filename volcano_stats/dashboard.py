@@ -21,6 +21,9 @@ country_list = sorted(df.Country.unique())
 volcano_list = sorted(df.Vol_name.unique())
 VEI_list = sorted(df.VEI.unique())
 StaYr_list = sorted(df.Sta_yr.unique())
+all_country_vol_options = {}
+for i in country_list:
+    all_country_vol_options[i] = list(dict.fromkeys(df[df['Country']==i]['Vol_name']))
 
 # Plot figures
 def plot_vol_position(df):
@@ -228,7 +231,7 @@ app.layout = html.Div([
             html.Div(children=[
                 html.Label('Choose the country or region'),
                 dcc.Dropdown(
-                    options=[{'label': x, 'value': x} for x in country_list] + [
+                    options=[{'label':x, 'value': x} for x in country_list] + [
                         {'label': 'All', 'value': 'all_values'}],
                     value='all_values',
                     multi=True,
@@ -236,9 +239,6 @@ app.layout = html.Div([
                 ),
                 html.Label('Choose the volcano'),
                 dcc.Dropdown(
-                    options=[{'label': x, 'value': x} for x in volcano_list] + [
-                        {'label': 'All', 'value': 'all_values'}],
-                    value='all_values',
                     multi=True,
                     id='crossfilter_volcano'
                 ),
@@ -269,8 +269,36 @@ app.layout = html.Div([
     ], ),
 ])
 
-# Callback for chained filters
+# Callback for chained filters (country & volcanos)
+@app.callback(
+            Output('crossfilter_volcano', 'options'),
+            Input('crossfilter_country', 'value'))
+def set_volcano_options(selected_country):
+    option_vol = []
+    if type(selected_country) != list:
+        if selected_country == 'all_values':
+            option_vol = [{'label': 'All', 'value': 'all_values'}]
+        else:
+            option_vol = [{'label':x, 'value': x} for x in all_country_vol_options[selected_country]] + [
+                {'label': 'All', 'value': 'all_values'}
+            ]
+    else:
+        for i in selected_country:
+            option_vol.append({'label':x, 'value': x} for x in all_country_vol_options[i])
+            option_vol.append({'label': 'All', 'value': 'all_values'})
+    return option_vol
 
+@app.callback(
+            Output('crossfilter_volcano', 'value'),
+            Input('crossfilter_volcano', 'options'))
+def set_volcano_values(available_options):
+    selected_vol = []
+    if len(available_options) == 1:
+        selected_vol = available_options[0]['value']
+    else:
+        for i in range(0, len(available_options)):
+            selected_vol.append(available_options[i]['value'])
+    return selected_vol
 
 # Callback for tabs
 @app.callback(
