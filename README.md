@@ -40,7 +40,14 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 
 
 # Evaluation
-sd
+
+### The strenth of this desing increaluse: 
+
+### Weekness 
+
+### How to improve: 
+
+
 
 # Weekly Report  
 
