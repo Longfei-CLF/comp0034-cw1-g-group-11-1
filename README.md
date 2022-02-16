@@ -3,7 +3,7 @@
 
 # Introduction
 
-Volcano eruption is a natural disaster that hard to predict. Without any forecast or contingency plan, volcano eruption might cause tremendous losses to society and humans. However, scientist can make a probability estimation with sufficient long-period eruption data set. (Turner et al., 2007) Thus, in the project, some dimensions such as the number of eruptions, the duration of the eruption and the volcano eruption index (VEI) are presented by visualizing the eruption data. This visualization design could help scientist to predict the possibility of volcano eruptions by using two sets of plot. The first section is a general overview of the volcanoes around the world. The second section is about more specific plot that used to predict the eruption.
+Volcano eruption is a natural disaster that hard to predict. Without any forecast or contingency plan, volcano eruption might cause tremendous losses to society and humans. However, scientist can make a probability estimation with sufficient long-period eruption data set. (Turner et al., 2007) Thus, in the project, some dimensions such as the number of eruptions, the duration of the eruption and the volcano eruption index (VEI) are presented by visualizing the eruption data. ***This visualization design could help scientist to predict the possibility of volcano eruptions by using two sets of plot***. The first section is a general overview of the volcanoes around the world. The second section is about more specific plot that used to predict the eruption.
 
 
 # Overview of the volcanos around the world
@@ -37,6 +37,72 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 
 <div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.4.png"/> </div>
 <div align=center> [Fig.4]: Number of Eruptions and Durations </div>
+
+
+# Evaluation
+
+### The strength of this design: 
+
+We have used different sets of charts to answer the audience’s questions. Each chart has a specific question to answer and show our audience better-visualized data. Moreover, the color and style of the plot are concise which is appropriate to the target audiences. 
+
+### Weakness: 
+
+However, most of the plot was made for professional use. General information about the volcano is lacking, such as the introduction of the volcano. Also, for a professionally used chart, we could make more complex callback functions that make the audience gather the data easily. 
+
+### How to improve: 
+
+Add more callback functions to the chart. Also, find more data to increase our dataset. For instance, we can add links to each of the volcanoes which will lead the audience to find more specific information. 
+
+
+
+# Weekly Report  
+
+### Report 1 
+
+#List what you completed or made progress on this week 
+
+For the project, we investigate the visual design technics for the coursework. Also, research into relationship between visualized data and graphing.
+
+#List what you plan to do next week 
+
+Build a brief structure for the CW and find a suitable CSS stylesheet. 
+
+### Report 2
+
+#List what you completed or made progress on this week 
+
+Create a suitable directory structure and find suitable CSS stylesheet. Also, add Html element to the CW.
+
+#List what you plan to do next week 
+
+Considering the design technics that suitable for this project.
+
+### Report 3
+
+#List what you completed or made progress on this week 
+
+Creating chart in the dash app which could answer the qeustiones from target audience. 
+
+Moreover, change the color of the background and chart.
+
+#List what you plan to do next week 
+
+Plot more charts and Style the chart with respect to the design
+
+
+### Report 4
+
+#List what you completed or made progress on this week 
+
+Add callback functions to the graph and other functions that suitable for answering the questions. 
+
+
+#List what you plan to do next week (for the coursework project):
+
+Debuging and writing readme for the CW.
+
+
+
 
 # Bibliography
 
