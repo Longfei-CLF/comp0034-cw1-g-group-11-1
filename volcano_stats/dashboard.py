@@ -18,7 +18,7 @@ FONT_AWESOME = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 external_stylesheets=[dbc.themes.BOOTSTRAP, FONT_AWESOME]
 
 app = dash.Dash(__name__, 
-    external_stylesheets=external_stylesheets)
+    external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
 data_path = "volcano_stats/data/Geo_Eruption_Results.xlsx"
 df = pd.read_excel(data_path)
 country_list = sorted(df.Country.unique())
@@ -315,15 +315,18 @@ def render_content(tab):
 # Callback for changes in country in positions
 @app.callback(
     Output('General_position', 'figure'),
-    Input('crossfilter_country', 'value'),
+    [Input('crossfilter_country', 'value'),
+    Input('crossfilter_VEI', 'value')
+    ],
 )
-def update_fig_vol_position(country_value):
+def update_fig_vol_position(country_value, VEI_value):
+    df_VEI = df[df['VEI'].isin(VEI_value)]
     if type(country_value) != list:
         country_value = [country_value]
         if country_value == ['all_values']:
-            dff = df
-        else: dff = df[df['Country'].isin(country_value)]
-    else: dff = df[df['Country'].isin(country_value)]
+            dff = df_VEI
+        else: dff = df_VEI[df_VEI['Country'].isin(country_value)]
+    else: dff = df_VEI[df_VEI['Country'].isin(country_value)]
     fig = plot_vol_position(dff)
     fig.update_traces(customdata=dff['Vol_name'])
     fig.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0}, hovermode='closest')
@@ -372,6 +375,7 @@ def update_fig_VEI_density(country_value):
     Input('crossfilter_country', 'value'),
 )
 def update_fig_NumErup_Dur(country_value):
+
     if type(country_value) != list:
         country_value = [country_value]
         if country_value == ['all_values']:
@@ -398,7 +402,6 @@ app.layout = html.Div([
         ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
 
         # Filters https://dash.plotly.com/layout
-
         html.Div(children=[
             html.Div(children=[
                 html.Label('Choose the country or region'),
@@ -422,36 +425,31 @@ app.layout = html.Div([
             html.Div(children=[
                 html.Br(),
                 html.Label('Choose the VEI'),
+                # dcc.Checklist(
+                #     id="crossfilter_VEI_all",
+                #     options=[{"label": "Select All", "value": "All"}],
+                #     value=["All"],
+                #     labelStyle={"display": "inline-block"},
+                # ),
                 dcc.Checklist(
-                    id="crossfilter_checklist_all",
-                    options=[{"label": "Select All", "value": "All"}],
-                    value=["All"],
-                    labelStyle={"display": "inline-block"},
-                ),
-                dcc.Checklist(
-                    id="crossfilter_checklist",
+                    id="crossfilter_VEI",
                     options=[{'label': x, 'value': x} for x in VEI_list],
-                    value=[],
+                    value=[1],
                     labelStyle={"display": "inline-block", },
                 ),
             ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
         ], style={'textAlign': 'center'}),
 
         html.Br(),
-
-
         dcc.Tabs(id="tabs-graph", value='tab-1-overview', children=[
             dcc.Tab(label='Overview', value='tab-1-overview'),
             dcc.Tab(label='Eruption Prediction', value='tab-2-eruption-prediction')
         ]),
 
-
-
         html.Div(id='tabs-content-graph'),
         html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(),
                         'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
         ], ),
-
 ])
 
 # Card layout 
