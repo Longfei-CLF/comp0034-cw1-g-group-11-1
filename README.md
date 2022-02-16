@@ -41,8 +41,56 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 
 # Evaluation
 sd
-# Weekly Report
-sd
+
+# Weekly Report </div>
+
+###Report 1
+
+#List what you completed or made progress on this week 
+
+For the project, we investigate the visual design technics for the coursework. Also, research into relationship between visualized data and graphing.
+
+#List what you plan to do next week 
+
+Build a brief structure for the CW and find a suitable CSS stylesheet. 
+
+###Report 2
+
+#List what you completed or made progress on this week 
+
+Create a suitable directory structure and find suitable CSS stylesheet. Also, add Html element to the CW.
+
+#List what you plan to do next week 
+
+Considering the design technics that suitable for this project.
+
+###Report 3
+
+#List what you completed or made progress on this week 
+
+Creating chart in the dash app which could answer the qeustiones from target audience. 
+
+Moreover, change the color of the background and chart.
+
+#List what you plan to do next week 
+
+Plot more charts and Style the chart with respect to the design
+
+
+###Report 4
+
+#List what you completed or made progress on this week 
+
+Add callback functions to the graph and other functions that suitable for answering the questions. 
+
+
+#List what you plan to do next week (for the coursework project):
+
+Debuging and writing readme for the CW.
+
+
+
+
 # Bibliography
 
 [1] Turner, M.B., Cronin, S.J., Bebbington, M.S. et al. Developing probabilistic eruption forecasts for dormant volcanoes: a case study from Mt Taranaki, New Zealand. Bull Volcanol 70, 507–515 (2008). https://doi.org/10.1007/s00445-007-0151-4
