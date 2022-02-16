@@ -207,11 +207,75 @@ def plot_NumErup_Dur(df):
     )
     return fig
 
+# App layout
+app.layout = html.Div([
+    # Introduction Part
+    html.Div(children=[
+
+        html.Div(children=[
+            html.Img(
+                src="assets/1.png",
+                style={"width": "75%", "height": "75%"}),
+        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+        html.Div(children=[
+            html.H1(children='Volcano Stats'),
+            html.Div(
+                children='''Professional Vocanol Analysis: Play around with the figures'''),
+        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+
+        # Filters
+        html.Div(children=[
+            html.Div(children=[
+                html.Label('Choose the country or region'),
+                dcc.Dropdown(
+                    options=[{'label': x, 'value': x} for x in country_list] + [
+                        {'label': 'All', 'value': 'all_values'}],
+                    value='all_values',
+                    multi=True,
+                    id='crossfilter_country'
+                ),
+                html.Label('Choose the volcano'),
+                dcc.Dropdown(
+                    options=[{'label': x, 'value': x} for x in volcano_list] + [
+                        {'label': 'All', 'value': 'all_values'}],
+                    value='all_values',
+                    multi=True,
+                    id='crossfilter_volcano'
+                ),
+            ], style={'padding': 10, 'flex': 1, "width": "30rem", "display": "inline-block"}),
+
+            html.Div(children=[
+                html.Br(),
+                html.Label('Choose the VEI'),
+                dcc.Checklist(
+                    id="crossfilter_VEI",
+                    options=[{'label': x, 'value': x} for x in VEI_list],
+                    value=[1, 2, 3, 4, 5, 6],
+                    labelStyle={"display": "inline-block", },
+                ),
+            ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+        ], style={'textAlign': 'center'}),
+
+        html.Br(),
+        dcc.Tabs(id="tabs-graph", value='tab-1-overview', children=[
+            dcc.Tab(label='Overview', value='tab-1-overview'),
+            dcc.Tab(label='Eruption Prediction',
+                    value='tab-2-eruption-prediction')
+        ]),
+        html.Div(id='tabs-content-graph'),
+
+        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(),
+                        'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
+    ], ),
+])
+
+# Callback for chained filters
+
+
 # Callback for tabs
-
-
-@app.callback(Output('tabs-content-graph', 'children'),
-              Input('tabs-graph', 'value'))
+@app.callback(
+            Output('tabs-content-graph', 'children'),
+            Input('tabs-graph', 'value'))
 def render_content(tab):
     if tab == 'tab-1-overview':
         return html.Div([
@@ -296,8 +360,6 @@ def render_content(tab):
         ],)
 
 # Callback for changes in country in positions
-
-
 @app.callback(
     Output('General_position', 'figure'),
     [Input('crossfilter_country', 'value'),
@@ -331,9 +393,28 @@ def update_fig_vol_position(country_value, VEI_value, volcano_value):
         margin={'l': 40, 'b': 20, 't': 40, 'r': 0}, hovermode='closest')
     return fig
 
+# Callback for number of eruptions with the change in the volcano
+@app.callback(
+    Output('NumErup', 'figure'),
+    Input('General_position', 'hoverData'))
+def update_fig_NumErup(hoverData):
+    Vol_name_value = hoverData['points'][0]['customdata']
+    dff = df[df['Vol_name'] == Vol_name_value]
+    return plot_NumErup(dff)
+
+# Callback for values on the cards
+@app.callback(
+    [Output(component_id='Tot_Erup', component_property='children'),
+     Output('Avg_ErupDur', 'children'),
+     Output('Max_VEI', 'children'),
+     ],
+    Input('General_position', 'hoverData'))
+def update_card_body(hoverData):
+    Vol_name_value = hoverData['points'][0]['customdata']
+    dff = df[df['Vol_name'] == Vol_name_value]
+    return str(len(dff)), round(sum(dff['Erup_dur']/len(dff))), max(dff['VEI'])
+
 # Callback for changes in country in VEI density and eurption durations
-
-
 @app.callback(
     [Output('VEI_density', 'figure'),
      Output('NumErup_Dur', 'figure')
@@ -369,93 +450,6 @@ def update_fig_VEI_density_eruptions(country_value, VEI_value, volcano_value):
     fig_NumErup_Dur.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
     return fig_VEI_density, fig_NumErup_Dur
 
-# Callback for number of eruptions with the change in the volcano
-
-
-@app.callback(
-    Output('NumErup', 'figure'),
-    Input('General_position', 'hoverData'))
-def update_fig_NumErup(hoverData):
-    Vol_name_value = hoverData['points'][0]['customdata']
-    dff = df[df['Vol_name'] == Vol_name_value]
-    return plot_NumErup(dff)
-
-# Callback for cards
-
-
-@app.callback(
-    [Output(component_id='Tot_Erup', component_property='children'),
-     Output('Avg_ErupDur', 'children'),
-     Output('Max_VEI', 'children'),
-     ],
-    Input('General_position', 'hoverData'))
-def update_card_body(hoverData):
-    Vol_name_value = hoverData['points'][0]['customdata']
-    dff = df[df['Vol_name'] == Vol_name_value]
-    return str(len(dff)), round(sum(dff['Erup_dur']/len(dff))), max(dff['VEI'])
-
-
-# App layout
-app.layout = html.Div([
-    # Introduction Part
-    html.Div(children=[
-
-        html.Div(children=[
-            html.Img(
-                src="assets/1.png",
-                style={"width": "75%", "height": "75%"}),
-        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
-        html.Div(children=[
-            html.H1(children='Volcano Stats'),
-            html.Div(
-                children='''Professional Vocanol Analysis: Play around with the figures'''),
-        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
-
-        # Filters
-        html.Div(children=[
-            html.Div(children=[
-                html.Label('Choose the country or region'),
-                dcc.Dropdown(
-                    options=[{'label': x, 'value': x} for x in country_list] + [
-                        {'label': 'All', 'value': 'all_values'}],
-                    value='all_values',
-                    multi=True,
-                    id='crossfilter_country'
-                ),
-                html.Label('Choose the volcano'),
-                dcc.Dropdown(
-                    options=[{'label': x, 'value': x} for x in volcano_list] + [
-                        {'label': 'All', 'value': 'all_values'}],
-                    value='all_values',
-                    multi=True,
-                    id='crossfilter_volcano'
-                ),
-            ], style={'padding': 10, 'flex': 1, "width": "30rem", "display": "inline-block"}),
-
-            html.Div(children=[
-                html.Br(),
-                html.Label('Choose the VEI'),
-                dcc.Checklist(
-                    id="crossfilter_VEI",
-                    options=[{'label': x, 'value': x} for x in VEI_list],
-                    value=[1, 2, 3, 4, 5, 6],
-                    labelStyle={"display": "inline-block", },
-                ),
-            ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
-        ], style={'textAlign': 'center'}),
-
-        html.Br(),
-        dcc.Tabs(id="tabs-graph", value='tab-1-overview', children=[
-            dcc.Tab(label='Overview', value='tab-1-overview'),
-            dcc.Tab(label='Eruption Prediction',
-                    value='tab-2-eruption-prediction')
-        ]),
-        html.Div(id='tabs-content-graph'),
-
-        html.Div(html.P(['Produced by Louis Ng & Longfei C.', html.Br(), 'Last updated: 13/02/2018', html.Br(),
-                        'Data Reference: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5 (27 Jan 2022). Venzke, E (ed.). Smithsonian Institution. Downloaded 13 Feb 2022. https://doi.org/10.5479/si.GVP.VOTW4-2013.']))
-    ], ),
-])
 
 if __name__ == '__main__':
     app.run_server(debug=True)
