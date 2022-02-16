@@ -38,4 +38,10 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 <div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.4.png"/> </div>
 <div align=center> [Fig.4]: Number of Eruptions and Durations </div>
 
+# Bibliography
 
+[1] Turner, M.B., Cronin, S.J., Bebbington, M.S. et al. Developing probabilistic eruption forecasts for dormant volcanoes: a case study from Mt Taranaki, New Zealand. Bull Volcanol 70, 507–515 (2008). https://doi.org/10.1007/s00445-007-0151-4
+
+[2] Venzke, E., 2013. Global Volcanism Program | How do scientists forecast eruptions?. [online] Smithsonian Institution | Global Volcanism Program. Available at: <https://volcano.si.edu/faq/index.cfm?question=eruptionforecast#:~:text=Scientists%20use%20a%20wide%20variety,and%20changes%20in%20gravity%20and> [Accessed 13 February 2022].
+
+[3] Society, N., n.d. Plate Tectonics and Volcanic Activity. [online] National Geographic Society. Available at: <https://www.nationalgeographic.org/article/plate-tectonics-volcanic-activity/> [Accessed 14 February 2022].
