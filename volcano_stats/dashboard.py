@@ -23,9 +23,12 @@ VEI_list = sorted(df.VEI.unique())
 StaYr_list = sorted(df.Sta_yr.unique())
 all_country_vol_options = {}
 for i in country_list:
-    all_country_vol_options[i] = list(dict.fromkeys(df[df['Country']==i]['Vol_name']))
+    all_country_vol_options[i] = list(
+        dict.fromkeys(df[df['Country'] == i]['Vol_name']))
 
 # Plot figures
+
+
 def plot_vol_position(df):
     """
     Show the distribution of volcanos
@@ -123,7 +126,7 @@ def plot_VEI_density(df):
 
     # Make 1st trace visible
     if len(df) != 0:
-        fig_VEI_density.data[1].visible = True
+        fig_VEI_density.data[0].visible = True
 
     # Create and add slider
     steps = []
@@ -210,6 +213,7 @@ def plot_NumErup_Dur(df):
     )
     return fig
 
+
 # App layout
 app.layout = html.Div([
     # Introduction Part
@@ -231,7 +235,7 @@ app.layout = html.Div([
             html.Div(children=[
                 html.Label('Choose the country or region'),
                 dcc.Dropdown(
-                    options=[{'label':x, 'value': x} for x in country_list] + [
+                    options=[{'label': x, 'value': x} for x in country_list] + [
                         {'label': 'All', 'value': 'all_values'}],
                     value='all_values',
                     multi=True,
@@ -239,6 +243,9 @@ app.layout = html.Div([
                 ),
                 html.Label('Choose the volcano'),
                 dcc.Dropdown(
+                    options=[{'label': x, 'value': x} for x in volcano_list] + [
+                        {'label': 'All', 'value': 'all_values'}],
+                    value='all_values',
                     multi=True,
                     id='crossfilter_volcano'
                 ),
@@ -269,41 +276,12 @@ app.layout = html.Div([
     ], ),
 ])
 
-# Callback for chained filters (country & volcanos)
-@app.callback(
-            Output('crossfilter_volcano', 'options'),
-            Input('crossfilter_country', 'value'))
-def set_volcano_options(selected_country):
-    option_vol = []
-    if type(selected_country) != list:
-        if selected_country == 'all_values':
-            option_vol = [{'label': 'All', 'value': 'all_values'}]
-        else:
-            option_vol = [{'label':x, 'value': x} for x in all_country_vol_options[selected_country]] + [
-                {'label': 'All', 'value': 'all_values'}
-            ]
-    else:
-        for i in selected_country:
-            option_vol.append({'label':x, 'value': x} for x in all_country_vol_options[i])
-            option_vol.append({'label': 'All', 'value': 'all_values'})
-    return option_vol
-
-@app.callback(
-            Output('crossfilter_volcano', 'value'),
-            Input('crossfilter_volcano', 'options'))
-def set_volcano_values(available_options):
-    selected_vol = []
-    if len(available_options) == 1:
-        selected_vol = available_options[0]['value']
-    else:
-        for i in range(0, len(available_options)):
-            selected_vol.append(available_options[i]['value'])
-    return selected_vol
-
 # Callback for tabs
+
+
 @app.callback(
-            Output('tabs-content-graph', 'children'),
-            Input('tabs-graph', 'value'))
+    Output('tabs-content-graph', 'children'),
+    Input('tabs-graph', 'value'))
 def render_content(tab):
     if tab == 'tab-1-overview':
         return html.Div([
@@ -388,6 +366,8 @@ def render_content(tab):
         ],)
 
 # Callback for changes in country in positions
+
+
 @app.callback(
     Output('General_position', 'figure'),
     [Input('crossfilter_country', 'value'),
@@ -422,6 +402,8 @@ def update_fig_vol_position(country_value, VEI_value, volcano_value):
     return fig
 
 # Callback for number of eruptions with the change in the volcano
+
+
 @app.callback(
     Output('NumErup', 'figure'),
     Input('General_position', 'hoverData'))
@@ -431,6 +413,8 @@ def update_fig_NumErup(hoverData):
     return plot_NumErup(dff)
 
 # Callback for values on the cards
+
+
 @app.callback(
     [Output(component_id='Tot_Erup', component_property='children'),
      Output('Avg_ErupDur', 'children'),
@@ -443,6 +427,8 @@ def update_card_body(hoverData):
     return str(len(dff)), round(sum(dff['Erup_dur']/len(dff))), max(dff['VEI'])
 
 # Callback for changes in country in VEI density and eurption durations
+
+
 @app.callback(
     [Output('VEI_density', 'figure'),
      Output('NumErup_Dur', 'figure')
@@ -477,6 +463,37 @@ def update_fig_VEI_density_eruptions(country_value, VEI_value, volcano_value):
     fig_NumErup_Dur = plot_NumErup_Dur(dff)
     fig_NumErup_Dur.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
     return fig_VEI_density, fig_NumErup_Dur
+
+# Tried to add chained callback for filters (country & volcanos) using the following codes
+# @app.callback(
+#             Output('crossfilter_volcano', 'options'),
+#             Input('crossfilter_country', 'value'))
+# def set_volcano_options(selected_country):
+#     option_vol = []
+#     if type(selected_country) != list:
+#         if selected_country == 'all_values':
+#             option_vol = [{'label': 'All', 'value': 'all_values'}]
+#         else:
+#             option_vol = [{'label':x, 'value': x} for x in all_country_vol_options[selected_country]]
+#     else:
+#         for i in selected_country:
+#             option_vol.append({'label':x, 'value': x} for x in all_country_vol_options[i])
+#     return option_vol
+# @app.callback(
+#             Output('crossfilter_volcano', 'value'),
+#             Input('crossfilter_volcano', 'options'))
+# def set_volcano_values(available_options):
+#     selected_vol = []
+#     if len(available_options) == 1:
+#         selected_vol = available_options[0]['value']
+#     else:
+#         for i in range(0, len(available_options)):
+#             selected_vol.append(available_options[i]['value'])
+#     return selected_vol
+# Return the following errors that cannot be solved:
+# dash.exceptions.InvalidCallbackReturnValue: The callback for `<Output `crossfilter_volcano.options`>`
+# returned a value having type `list`
+# which is not JSON serializable.
 
 
 if __name__ == '__main__':
