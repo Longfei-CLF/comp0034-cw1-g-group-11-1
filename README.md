@@ -41,11 +41,17 @@ In Fig.4, other information on volcanoes has been designed for predicting the er
 
 # Evaluation
 
-### The strenth of this desing increaluse: 
+### The strength of this design: 
 
-### Weekness 
+We have used different sets of charts to answer the audience’s questions. Each chart has a specific question to answer and show our audience better-visualized data. Moreover, the color and style of the plot are concise which is appropriate to the target audiences. 
+
+### Weakness: 
+
+However, most of the plot was made for professional use. General information about the volcano is lacking, such as the introduction of the volcano. Also, for a professionally used chart, we could make more complex callback functions that make the audience gather the data easily. 
 
 ### How to improve: 
+
+Add more callback functions to the chart. Also, find more data to increase our dataset. For instance, we can add links to each of the volcanoes which will lead the audience to find more specific information. 
 
 
 
