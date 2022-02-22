@@ -53,7 +53,9 @@ However, most of the plot was made for professional use. General information abo
 
 Add more callback functions to the chart. Also, find more data to increase our dataset. For instance, we can add links to each of the volcanoes which will lead the audience to find more specific information. 
 
+# Video Explanation
 
+https://ucl.zoom.us/rec/play/5MU1BTu14YT-vmgbgRGH0_GOZdWmu2zxhZxnBQyQI_NJhaBPibhAiicWxeM4bb1Ovp_Y3o5wdJt9NIB8.jJf_ngTI6ayhCDjT?autoplay=true&startTime=1645525419000
 
 # Weekly Report  
 
