@@ -1,6 +1,8 @@
+from flask import Flask
 from volcano_stats_flask import create_app
+from volcano_stats_flask.config import Config
 
-app = create_app()
+app = create_app(Config.DevelopmentConfig)
 
 
 @app.route('/')
