@@ -1,2 +1,6 @@
 global-exclude *.py[cod]
 exclude test*/*.py
+
+graft volcano_stats_flask/static
+graft volcano_stats_flask/templates
+global-exclude *.pyc
