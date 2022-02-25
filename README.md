@@ -12,7 +12,7 @@ In Fig.1, all volcanoes were highlighted on a world map. Since this is only a ge
 
 This design can be understood by the majority of people without expert knowledge which is appropriate for a wide range of audiences. Using the small blue spot to represent the volcano makes the audience easy to see and select them by moving the cursor.
 
-<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig1.png"/></div>
+<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/volcano_stats_dash/assets/Fig1.png"/></div>
 <div align=center> [Fig.1]: Distribution of volcanos all over the world </div> <br />
 
 Combine with the world map graph, more information was provided as shown in Fig.2. Thus, this graph was designed to answer more professional questions. When the audience selects a volcano, the plot on the right side shows the number of eruptions in a period of time. Moreover, they can adjust the time period by sliding the bottom icon. The number of eruptions versus eruptions years could be used to predict the activity of the volcano (Venzke, 2013). This is essential when scientists want to predict the eruption of a specific volcano. Using the line plot expresses the difference between each eruption better. The audience is able to compare the peak value easily from the plot. What is more, the sliding icon has simplified the operations for the audience. They don’t need to put specific starting years or times. Instead, sliding makes the section of the time period much easier. <br />
@@ -20,7 +20,7 @@ Combine with the world map graph, more information was provided as shown in Fig.
 
 
 
-<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig2.png"/></div>
+<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/volcano_stats_dash/assets/Fig2.png"/></div>
 <div align=center>[Fig.2]: Number of Eruptions over the year </div>
 
 
@@ -30,12 +30,12 @@ Combine with the world map graph, more information was provided as shown in Fig.
 The second set of plots were designed for eruption predictions. Our **target audience** is volcanologist and geologists who intended to predict the volcano or continental plate activities. To plot this graph, VEI, position of the volcano, and Eruption years were needed. In Fig.3, this plot was design to indicate the VEI in a specific year.  In geography, a large amount of severe volcano eruptions can be caused by unusually plate movement, in which will cause earthquake, flooding to the edge of the continental plate. Fig.3 could provide a clear view of all the VEI in a specific year. Geologist could use these informations to predict the further movement of the plate. More importantly, this forecast could reduce the losses to societies and human. In addition, VEI was represented by a gradient ramp spot, the warmer the color, means the eruption is severe to the neighboring areas. This color design helped scientist to identify the VEI in a more obvious way compare with numbers. From this graph, volcanologist can easily see the trend of VEI of a region which they could build model based on this graph. Furthermore, using the world map to position the eruptions could help scientist to see the density of eruptions. This design helped scents to identify the region that they should pay more attention to. 
 
 
-<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.3.png"/> </div>
+<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/volcano_stats_dash/assets/Fig3.png"/> </div>
 <div align=center>[Fig.3]: Volcano Eruption Index in a specific year </div> <br />
 
 In Fig.4, other information on volcanoes has been designed for predicting the eruption. The data needed is eruption durations and a sum of eruptions at each year. In order to obtain the sum of eruptions, we have written a program to sum the eruptions number per year from our dataset. Our target audiences are volcanologists or geologists who were investigating the frequency of the volcano eruption and eruption prediction. In volcanology, the number of eruptions and durations is a key factor that is used to predict volcano activities. If there is a sudden change of eruption numbers that lasts for a long period, it is evidence that the volcano has released its lava and gas. More importantly, it won’t have the same scale of eruption within 5-10 years. (Turner et al., 2007) This visualization design will be made into a scattered-dot plot in which the size of the dot is corresponding to the eruption duration. Moreover, the x-axis is the Eruption year and the y-axis is the number of eruptions. Thus, this plot can help scientists to identify the eruption scale in a specific period. Also, the frequency of eruptions can be represented by the density of the dots. This design aid scientist to identify the eruption density in a more visualized way.  <br />
 
-<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/Fig/Fig.4.png"/> </div>
+<div align=center><img width="75%" height="75%" src="https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1/blob/master/volcano_stats_dash/assets/Fig4.png"/> </div>
 <div align=center> [Fig.4]: Number of Eruptions and Durations </div>
 
 
