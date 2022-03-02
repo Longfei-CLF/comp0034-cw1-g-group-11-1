@@ -14,7 +14,6 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + str(DATA_PATH.joinpath('flask_db.sqlite'))
 
 
-
 class ProductionConfig(Config):
     ENV = 'production'
 
