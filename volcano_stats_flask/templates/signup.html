@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST" action="{{ url_for('auth.signup') }}">
+        {{ form.csrf_token }}
+        {{ form.first_name.label }} {{ form.first_name() }} <br>
+        {{ form.last_name.label }} {{ form.last_name() }} <br>
+        {{ form.email.label }} {{ form.email() }} <br>
+        {{ form.password.label }} {{ form.password() }} <br>
+        {{ form.password_repeat.label }} {{ form.password_repeat() }} <br>
+        <input type="submit" value="Sign up">
+    </form>
+{% endblock %}
+
+{{form.first_name.label(class="form-label")}}
+{{form.first_name(class="form-control")}}
