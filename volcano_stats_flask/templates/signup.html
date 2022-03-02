@@ -13,3 +13,10 @@
 
 {{form.first_name.label(class="form-label")}}
 {{form.first_name(class="form-control")}}
+
+{# Display the form validation errors #}
+    {% for field, errors in form.errors.items() %}
+        <div class="alert alert-error">
+            {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+    {% endfor %}
