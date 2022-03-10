@@ -1,22 +1,13 @@
 {% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
 {% block content %}
     <form method="POST" action="{{ url_for('auth.signup') }}">
         {{ form.csrf_token }}
-        {{ form.first_name.label }} {{ form.first_name() }} <br>
-        {{ form.last_name.label }} {{ form.last_name() }} <br>
-        {{ form.email.label }} {{ form.email() }} <br>
-        {{ form.password.label }} {{ form.password() }} <br>
-        {{ form.password_repeat.label }} {{ form.password_repeat() }} <br>
+        {{ render_field(form.first_name, class="form-control") }}
+        {{ render_field(form.last_name, class="form-control") }}
+        {{ render_field(form.email, class="form-control") }}
+        {{ render_field(form.password, class="form-control") }}
+        {{ render_field(form.password_repeat, class="form-control") }}
         <input type="submit" value="Sign up">
     </form>
 {% endblock %}
-
-{{form.first_name.label(class="form-label")}}
-{{form.first_name(class="form-control")}}
-
-{# Display the form validation errors #}
-    {% for field, errors in form.errors.items() %}
-        <div class="alert alert-error">
-            {{ form[field].label }}: {{ ', '.join(errors) }}
-        </div>
-    {% endfor %}
