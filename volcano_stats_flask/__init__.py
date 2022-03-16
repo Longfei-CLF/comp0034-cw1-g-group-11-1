@@ -1,9 +1,12 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
+login_manager = LoginManager()
 
 def create_app(config_class_name):
     """
@@ -15,6 +18,9 @@ def create_app(config_class_name):
     app.config.from_object(config_class_name)
     csrf.init_app(app)
     db.init_app(app)
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
 
     with app.app_context():
         from volcano_stats_flask.models import User
