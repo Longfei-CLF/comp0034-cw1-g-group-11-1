@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from volcano_stats_flask import db
@@ -6,15 +6,13 @@ from volcano_stats_flask.auth.forms import SignupForm, LoginForm
 from volcano_stats_flask.models import User
 
 from volcano_stats_flask import login_manager
+from datetime import timedelta
 from urllib.parse import urlparse, urljoin
-from flask_login import logout_user, login_required
+from flask_login import login_user, logout_user, login_required
 
 
-
-
-
-# auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+# auth_bp = Blueprint('auth', __name__)
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -39,8 +37,8 @@ def signup():
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        flash(f"You are logged in as {login_form.email.data}")
         user = User.query.filter_by(email=login_form.email.data).first()
+        flash(f"You are logged in as {login_form.email.data}")
         login_user(user, remember=login_form.remember.data, duration=timedelta(minutes=1))
         next = request.args.get('next')
         if not is_safe_url(next):
