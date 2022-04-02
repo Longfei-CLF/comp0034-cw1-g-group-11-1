@@ -24,12 +24,12 @@ class LoginForm(FlaskForm):
 
     def validate_email(self, email):
         users = User.query.filter_by(email=email.data).first()
-        if users is not None:
-            raise ValidationError('Existed account')
+        if users is None:
+            raise ValidationError('Non-existed account')
 
-    def validate_password(self, password, email):
-        users = User.query.filter_by(email=email.data).first()
-        if users is not None:
+    def validate_password(self, password):
+        users = User.query.filter_by(email=self.email.data).first()
+        if users is None:
             raise ValidationError('Non-existed account')
         if not users.check_password(password.data):
             raise ValidationError('Invalid password')
