@@ -8,7 +8,7 @@ from flask import request, redirect, url_for
 
 from volcano_stats_flask import photos, db
 from volcano_stats_flask.main.forms import ProfileForm
-from volcano_stats_flask.models import Profile, Organization
+from volcano_stats_flask.models import Profile
 from volcano_stats_flask.models import User
 
 
@@ -26,12 +26,24 @@ def index():
     return render_template('index.html', title="Home")
 
 
-@main_bp.route('/profile', methods=['GET', 'POST'])
+@main_bp.route('/community', methods=['GET', 'POST'])
 @login_required
-def profile():
+def community():
+    results = Profile.query.all()
+    urls = []
+    for result in results:
+        if result.photo:
+            url = photos.url(result.photo)
+            urls.append(url)
+    return render_template('display_community.html', profiles=zip(results, urls))
+
+
+@main_bp.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
     profile = Profile.query.join(User, User.id == Profile.user_id).filter(User.id == current_user.id).first()
     if profile:
-        return redirect(url_for('main.update_profile'))
+        return redirect(url_for('main.display_profiles'))
     else:
         return redirect(url_for('main.create_profile'))
 
@@ -41,7 +53,7 @@ def profile():
 def create_profile():
     form = ProfileForm()
     #form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
-    print(len(form.org_id.choices))
+    # print(len(form.organization.choices))
     if request.method == 'POST' and form.validate_on_submit():
         # Set the filename for the photo to None, this is the default if the user hasn't chosen to add a profile photo
         filename = None
@@ -49,7 +61,7 @@ def create_profile():
             if request.files['photo'].filename != '':
                 # Save the photo using the global variable photos to get the location to save to
                 filename = photos.save(request.files['photo'])
-        p = Profile(org_id=form.org_id.data, username=form.username.data, photo=filename, bio=form.bio.data,
+        p = Profile(org_id=form.organization.data, username=form.username.data, photo=filename, bio=form.bio.data,
                     user_id=current_user.id)
         db.session.add(p)
         db.session.commit()
@@ -63,12 +75,12 @@ def update_profile():
     profile = Profile.query.join(User, User.id == Profile.user_id).filter_by(id=current_user.id).first()
     # https://wtforms.readthedocs.io/en/3.0.x/fields/#wtforms.fields.SelectField fields with dynamic choice
     form = ProfileForm(obj=profile)
-    form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
+    # form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.files:
             filename = photos.save(request.files['photo'])
             profile.photo = filename
-        profile.region = form.org_id.data
+        # profile.region = form.org_id.data
         profile.bio = form.bio.data
         profile.username = form.username.data
         db.session.commit()
@@ -80,19 +92,20 @@ def update_profile():
 @main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
 @login_required
 def display_profiles(username):
-    results = None
-    if username is None:
-        if request.method == 'POST':
-            term = request.form['search_term']
-            if term == "":
-                flash("Enter a name to search for")
-                return redirect(url_for("main.index"))
-            results = Profile.query.filter(Profile.username.contains(term)).all()
-    else:
-        results = Profile.query.filter_by(username=username).all()
-    if not results:
-        flash("Username not found.")
-        return redirect(url_for("main.index"))
+    # results = None
+    # if username is None:
+    #     if request.method == 'POST':
+    #         term = request.form['search_term']
+    #         if term == "":
+    #             flash("Enter a name to search for")
+    #             return redirect(url_for("main.index"))
+    #         results = Profile.query.filter(Profile.username.contains(term)).all()
+    # else:
+    results = Profile.query.all()
+    # Profile.query.filter_by(username=username).all()
+    # if not results:
+    #     flash("Username not found.")
+    #     return redirect(url_for("main.index"))
     urls = []
     for result in results:
         if result.photo:

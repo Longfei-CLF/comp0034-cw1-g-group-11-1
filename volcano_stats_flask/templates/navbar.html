@@ -11,7 +11,7 @@
                     <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profiles</a>
+                    <a class="nav-link" href="{{ url_for('main.community') }}">Community</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard/">Dashboard</a>
@@ -26,7 +26,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.profile') }}">MyProfile</a>
+                        <a class="nav-link" href="{{ url_for('main.account') }}">MyAccount</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>

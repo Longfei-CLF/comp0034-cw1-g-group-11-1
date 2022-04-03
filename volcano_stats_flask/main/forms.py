@@ -11,7 +11,7 @@ class ProfileForm(FlaskForm):
     username = StringField(label='Username', validators=[DataRequired(message='Username is required')])
     bio = TextAreaField(label='Bio', description='Write something about yourself')
     photo = FileField('Profile picture', validators=[FileAllowed(photos, 'Images only!')])
-    organization = SelectField(label='Enter your organization', validators=[DataRequired(message='Organization is required')])
+    organization = StringField(label='Enter your organization', validators=[DataRequired(message='Organization is required')])
 
     def validate_username(self, username):
         profile = Profile.query.filter_by(username=username.data).first()
