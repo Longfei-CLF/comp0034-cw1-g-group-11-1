@@ -20,3 +20,26 @@ class User(UserMixin,db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+
+class Profile (db.Model):
+    __tablename__ = "Profile"
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.Text, unique = True)
+    photo = db.Column(db.Text)
+
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
+
+    def __repr__(self):
+        return '<User %r>' % (self.nickname)

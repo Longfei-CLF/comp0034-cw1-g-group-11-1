@@ -13,6 +13,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATA_PATH = pathlib.Path(__file__).parent
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + str(DATA_PATH.joinpath('flask_db.sqlite'))
+    UPLOADED_PHOTOS_DEST = Path(__file__).parent.joinpath("volcano_stats_flask/static/img")
 
 
 class ProductionConfig(Config):

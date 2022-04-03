@@ -37,7 +37,6 @@ tenacity==8.0.1
 toml==0.10.2
 tomli==2.0.1
 typing_extensions==4.0.1
--e git+https://github.com/ucl-comp0035/comp0034-cw1-g-group-11-1.git@32e9f47b4ad6db08e8a2eac6cbbdc3ad56224d6e#egg=volcano_stats_flask
 Werkzeug==2.0.3
 WTForms==3.0.1
 zipp==3.7.0

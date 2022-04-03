@@ -13,6 +13,7 @@ from flask_login import LoginManager, login_required
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 
+
 csrf = CSRFProtect()
 csrf._exempt_views.add('dash.dash.dispatch')
 db = SQLAlchemy()

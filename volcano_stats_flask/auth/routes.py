@@ -51,6 +51,10 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+
+
+
+
 @login_manager.user_loader
 def load_user(user_id):
     """ Takes a user ID and returns a user object or None if the user does not exist"""
@@ -80,3 +84,4 @@ def unauthorized():
     """Redirect unauthorized users to Login page."""
     flash('You must be logged in to view that page.')
     return redirect(url_for('auth.login'))
+

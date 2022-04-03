@@ -4,6 +4,8 @@ from wtforms.validators import DataRequired, EqualTo, ValidationError
 
 from volcano_stats_flask.models import User
 
+
+
 class SignupForm(FlaskForm):
     first_name = StringField(label='First name', validators=[DataRequired()])
     last_name = StringField(label='Last name', validators=[DataRequired()])
@@ -33,3 +35,11 @@ class LoginForm(FlaskForm):
             raise ValidationError('Non-existed account')
         if not users.check_password(password.data):
             raise ValidationError('Invalid password')
+
+class Profile (FlaskForm):
+    first_name = StringField(label='First name', validators=[DataRequired()])
+    last_name = StringField(label='Last name', validators=[DataRequired()])
+    email = EmailField(label='Email address', validators=[DataRequired()])
+    password = PasswordField(label='Password', validators=[DataRequired()])
+    password_repeat = PasswordField(label='Repeat Password',
+                                    validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
