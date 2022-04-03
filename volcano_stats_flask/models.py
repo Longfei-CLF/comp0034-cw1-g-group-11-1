@@ -11,9 +11,10 @@ class User(UserMixin,db.Model):
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
+    profiles = db.relationship("Profile", uselist=False, backref=db.backref('user'))
 
-    def __repr__(self):
-        return f"{self.id} {self.first_name} {self.last_name} {self.email} {self.password}"
+    # def __repr__(self):
+    #     return f"{self.id} {self.first_name} {self.last_name} {self.email} {self.password}"
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -25,21 +26,16 @@ class User(UserMixin,db.Model):
 class Profile (db.Model):
     __tablename__ = "Profile"
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.Text, unique = True)
+    username = db.Column(db.Text, unique = True, nullable=False)
     photo = db.Column(db.Text)
+    bio = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    org_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
 
+    # def __repr__(self):
+    #     return '<Profile %r>' % self.username
 
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return unicode(self.id)
-
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
+class Organization (db.Model):
+    __tablename__ = "organization"
+    id = db.Column(db.Integer, primary_key = True)
+    Organization = db.Column(db.Text)
