@@ -30,13 +30,15 @@ def index():
 @login_required
 def community():
     results = Profile.query.all()
-    urls = []
+    photo_urls = []
+    profile_urls = []
     for result in results:
         if result.photo:
-            url = photos.url(result.photo)
-            urls.append(url)
-    return render_template('display_community.html', profiles=zip(results, urls))
-
+            photo_url = photos.url(result.photo)
+            photo_urls.append(photo_url)
+            profile_url = "/display_profiles/" + result.username
+            profile_urls.append(profile_url)
+    return render_template('dispaly_community.html', profiles=zip(results, photo_urls, profile_urls))
 
 @main_bp.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -87,9 +89,13 @@ def update_profile():
         return redirect(url_for('main.display_profiles', username=profile.username))
     return render_template('profile.html', form=form)
 
+# @main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
+# @login_required
+# def display_profiles():
+#     return render_template('display_profile.html', profiles=zip(results, urls))
+
 
 @main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
-@main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
 @login_required
 def display_profiles(username):
     # results = None

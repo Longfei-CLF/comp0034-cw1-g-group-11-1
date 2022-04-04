@@ -2,13 +2,13 @@
 {% set title = 'Community Display' %}
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
-    {% for result, url in profiles %}
-        <div class="card" style="width: 33%;">
-            <img class="card-img-top" src="{{ url }}" alt="User profile photo">
+    {% for result, photo_url, profile_url in profiles %}
+        <div class="card border-dark mb-3" style="max-width: 30rem;">
+            <img class="card-img-top" src="{{ photo_url }}" alt="User profile photo">
             <div class="card-body">
                 <h5 class="card-title">{{ result.username }}</h5>
                 <h6 class="card-title">{{ result.organization }}</h6>
-                <p class="card-text" maxlength="50">{{ result.bio }}</p>
+                <a href="{{ profile_url }}" class="btn btn-primary">View more</a>
             </div>
         </div>
     {% endfor %}
