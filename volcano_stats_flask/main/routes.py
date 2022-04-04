@@ -1,3 +1,4 @@
+from unittest import result
 from flask import Blueprint, render_template, flash
 from flask_login import current_user
 
@@ -89,35 +90,36 @@ def update_profile():
         return redirect(url_for('main.display_profiles', username=profile.username))
     return render_template('profile.html', form=form)
 
-# @main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
-# @login_required
-# def display_profiles():
-#     return render_template('display_profile.html', profiles=zip(results, urls))
-
-
-@main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
+@main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
 @login_required
 def display_profiles(username):
-    # results = None
-    # if username is None:
-    #     if request.method == 'POST':
-    #         term = request.form['search_term']
-    #         if term == "":
-    #             flash("Enter a name to search for")
-    #             return redirect(url_for("main.index"))
-    #         results = Profile.query.filter(Profile.username.contains(term)).all()
-    # else:
-    results = Profile.query.all()
-    # Profile.query.filter_by(username=username).all()
-    # if not results:
-    #     flash("Username not found.")
-    #     return redirect(url_for("main.index"))
-    urls = []
-    for result in results:
-        if result.photo:
-            url = photos.url(result.photo)
-            urls.append(url)
-    return render_template('display_profile.html', profiles=zip(results, urls))
+    results = Profile.query.filter_by(username=username).first()
+    return render_template('display_profile.html', results=results)
+
+
+# @main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
+# @login_required
+# def display_profiles(username):
+#     # results = None
+#     # if username is None:
+#     #     if request.method == 'POST':
+#     #         term = request.form['search_term']
+#     #         if term == "":
+#     #             flash("Enter a name to search for")
+#     #             return redirect(url_for("main.index"))
+#     #         results = Profile.query.filter(Profile.username.contains(term)).all()
+#     # else:
+#     results = Profile.query.all()
+#     # Profile.query.filter_by(username=username).all()
+#     # if not results:
+#     #     flash("Username not found.")
+#     #     return redirect(url_for("main.index"))
+#     urls = []
+#     for result in results:
+#         if result.photo:
+#             url = photos.url(result.photo)
+#             urls.append(url)
+#     return render_template('display_profiles.html', profiles=zip(results, urls))
 
 
 
