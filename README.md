@@ -6,6 +6,9 @@
 ## Profile: 
 There is a button on the top of the page called "Community", by clicking on this icon, we are able to see all members' brief information, such as their name, organization, and email address. Also, more detailed information about members can be found by clicking on the “view more” button. The user's profile such as bio and photos will be shown. Furthermore, users can use the “My Account” page to change their profiles. In addition, if users want to reset their password, they can also do it on the “My Account” page. (The reset password function can not run properly, and a bug report was attached at the end of README) 
 
+## Bug report
+I was trying to implement a feature to upload the profile photo. The package allows me to upload a profile figure however I met the error that I cannot solve “RuntimeError: cannot access configuration outside request”.The solution provided online (https://stackoverflow.com/questions/23650544/runtimeerror-cannot-access-configuration-outside-request) suggest to add configure_uploads() function but I still got the same error. The error should be located in _init_.py and config.py. The error also prevent to realise the feature of community.
+
 
 ## Reset Password by Email
 
@@ -15,6 +18,7 @@ This function was designed for users who forgot their passwords. They can click 
 ## Bug report: 
 
 For this function, the code is not able to send emails to the user. We tried to fix this bug, however, it does not work well. Moreover, we speculate that errors may occur since the lack of authentication code from the user’s email address. Also, other possible reasons might be that the code might fail to redirect the user’s request, and therefore it fails to send an email. Details errors were quoted in the code. 
+
 
 # COMP0034 Coursework 1
 
