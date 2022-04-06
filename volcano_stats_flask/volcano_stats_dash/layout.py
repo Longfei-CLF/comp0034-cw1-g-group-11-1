@@ -19,12 +19,6 @@ StaYr_list = sorted(df.Sta_yr.unique())
 layout = html.Div([
     # Introduction Part
     html.Div(children=[
-
-        html.Div(children=[
-            html.Img(
-                src="",
-                style={"width": "75%", "height": "75%"}),
-        ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
         html.Div(children=[
             html.H1(children='Volcano Stats'),
             html.Div(
