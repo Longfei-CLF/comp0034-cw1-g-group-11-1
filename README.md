@@ -14,7 +14,11 @@ This function was designed for users who forgot their passwords. They can click 
 
 ## Bug report: 
 
-For this function, the code is not able to send emails to the user. We tried to fix this bug, however, it does not work well. Moreover, we speculate that errors may occur since the lack of authentication code from the user’s email address. Also, other possible reasons might be that the code might fail to redirect the user’s request, and therefore it fails to send an email. Details errors were quoted in the code. 
+For this function, code is not able to sent email to the user. We tried to fix this bug, however it does not work well. Moreover, we speculate that errors may occur since the lack of authentication code from user’s email address. Also, the code might failed to redirect user’s request, and therefore it fail to send an email. Details errors was comment in the code. 
+
+I also search a method that require no authentication. However, this will only work in my the local internet which means it can not sent to users around the world. Moreover, the file reset_password_request can not response properly. The problem is in line “{% for error in form.email.errors %} ”. 
+
+For file email_send.py, login.html, and model.py , they all can be reviewed. I already comment out all the bug code and the function of the code is not fully presented.
 
 # COMP0034 Coursework 1
 
