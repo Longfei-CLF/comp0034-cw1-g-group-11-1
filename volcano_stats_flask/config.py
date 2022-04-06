@@ -5,6 +5,29 @@ from asyncio import FastChildWatcher
 from distutils.debug import DEBUG
 from pathlib import Path
 import pathlib
+import os
+
+from django.views.generic import View
+
+
+class Config():
+
+    CSRF_ENABLED = True
+    SECRET_KEY = 'YOU-WILL-SUCCEED'
+
+
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/flaskblog?charset=utf8'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    POSTS_PRE_PAGE = 3
+
+#Code for sending the email to user, however the function can not run properly.
+    # MAIL_SUPPRESS_SEND = False  #
+    # MAIL_SERVER = 'smtp.sina.cn'
+    # MAIL_PORT = int(465)
+    # MAIL_USE_SSL = True
+    # MAIL_PASSWORD = 'xxxxx'
+    # MAIL_USERNAME = 'xx'
+    # ADMINS = ['xxxxxx@sina.cn']
 
 
 class Config(object):
@@ -29,3 +52,5 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     ENV = 'testing'
     DEBUG = False
+
+

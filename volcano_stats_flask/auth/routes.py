@@ -82,3 +82,17 @@ def unauthorized():
     flash('You must be logged in to view that page.')
     return redirect(url_for('auth.login'))
 
+#@auth_bp.route('/dispatch_request', methods=['GET', 'POST'])
+#def dispatch_request():
+#         if load_user.is_authenticated:
+#             return redirect(url_for('index'))
+#         form =request
+#         if form.validate_on_submit():
+#             user = User.query.filter_by(email=form.email.data).first()
+#             if not user:
+#                 flash('')
+#                 return redirect(url_for('reset_password_request'))
+#             flash('')
+#             return redirect(url_for('login'))
+#         return render_template('login/reset_password_request.html', title='reset password', form=form)
+

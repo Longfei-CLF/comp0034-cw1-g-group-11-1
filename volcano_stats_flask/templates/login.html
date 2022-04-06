@@ -6,6 +6,10 @@
         {{ render_field(form.email, class="form-control") }}
         {{ render_field(form.password, class="form-control") }}
         {{ render_field(form.remember, class="form-check-input") }}
-    <p><button type="submit" class="btn btn-primary">Login</button></p>
+        <p><button type="submit" class="btn btn-primary">Login</button></p>
+        <p> Forgot Passowrd？<a href="{{ url_for('auth.login') }}">Reset Password</a></p><!--This has an error since the url_for can not direct to the function(Reset_password).
+        The auth.login was used but the funcion is not the same.-->
     </form>
 {% endblock %}
+
+

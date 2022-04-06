@@ -1,5 +1,7 @@
+
 from dash import html
 from dash import dcc
+
 
 import pandas as pd
 from pathlib import Path
@@ -20,7 +22,7 @@ layout = html.Div([
 
         html.Div(children=[
             html.Img(
-                src="assets/1.png",
+                src="",
                 style={"width": "75%", "height": "75%"}),
         ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
         html.Div(children=[
@@ -57,9 +59,9 @@ layout = html.Div([
                     id="crossfilter_VEI",
                     options=[{'label': x, 'value': x} for x in VEI_list],
                     value=[1, 2, 3, 4, 5, 6],
-                    labelStyle={"display": "inline-block", },
+                    labelStyle={"display": "inline-block","width": "15%" },
                 ),
-            ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
+            ], style={'padding': 10, 'flex': 1,"display": "inline-block"}),
         ], style={'textAlign': 'center'}),
 
         html.Br(),

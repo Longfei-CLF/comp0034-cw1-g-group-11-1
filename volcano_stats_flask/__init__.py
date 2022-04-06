@@ -12,6 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 
+
+
 csrf = CSRFProtect()
 csrf._exempt_views.add('dash.dash.dispatch')
 db = SQLAlchemy()
@@ -25,7 +27,6 @@ def create_app(config_class_name):
     :rtype: Returns a configured Flask object
     """
     app = Flask(__name__)
-
     app.config.from_object(config_class_name)
 
     register_dashapp(app)
@@ -34,11 +35,9 @@ def create_app(config_class_name):
     db.init_app(app)
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
-    configure_uploads(app, photos)
 
     with app.app_context():
         from volcano_stats_flask.models import User
-        from volcano_stats_flask.models import Profile
         db.create_all()
 
     from volcano_stats_flask.main.routes import main_bp
@@ -78,4 +77,3 @@ def _protect_dash_views(dash_app):
     for view_func in dash_app.server.view_functions:
         if view_func.startswith(dash_app.config.routes_pathname_prefix):
             dash_app.server.view_functions[view_func] = login_required(dash_app.server.view_functions[view_func])
-
