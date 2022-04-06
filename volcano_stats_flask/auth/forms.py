@@ -1,9 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, BooleanField,SubmitField
-from wtforms.validators import DataRequired, EqualTo, ValidationError,Email
+from wtforms import StringField, PasswordField, EmailField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Email
 from volcano_stats_flask.models import User
-
-
 
 
 class SignupForm(FlaskForm):
@@ -13,11 +11,13 @@ class SignupForm(FlaskForm):
     password = PasswordField(label='Password', validators=[DataRequired()])
     password_repeat = PasswordField(label='Repeat Password',
                                     validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
-    
+
     def validate_email(self, email):
         users = User.query.filter_by(email=email.data).first()
         if users is not None:
-            raise ValidationError('An account is already registered for that email address')
+            raise ValidationError(
+                'An account is already registered for that email address')
+
 
 class LoginForm(FlaskForm):
     email = EmailField(label='Email address', validators=[DataRequired()])
@@ -35,6 +35,7 @@ class LoginForm(FlaskForm):
             raise ValidationError('Non-existed account')
         if not users.check_password(password.data):
             raise ValidationError('Invalid password')
+
 
 class Profile (FlaskForm):
     first_name = StringField(label='First name', validators=[DataRequired()])

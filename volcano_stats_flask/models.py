@@ -3,15 +3,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-
-class User(UserMixin,db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
-    profiles = db.relationship("Profile", uselist=False, backref=db.backref('user'))
+    profiles = db.relationship(
+        "Profile", uselist=False, backref=db.backref('user'))
 
     # def __repr__(self):
     #     return f"{self.id} {self.first_name} {self.last_name} {self.email} {self.password}"
@@ -25,17 +25,16 @@ class User(UserMixin,db.Model):
 
 class Profile (db.Model):
     __tablename__ = "Profile"
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.Text, unique = True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text, unique=True, nullable=False)
     photo = db.Column(db.Text)
     bio = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    org_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
+    organization_id = db.Column(db.Integer, db.ForeignKey(
+        'organization.id'), nullable=False)
 
-    # def __repr__(self):
-    #     return '<Profile %r>' % self.username
 
 class Organization (db.Model):
     __tablename__ = "organization"
-    id = db.Column(db.Integer, primary_key = True)
-    Organization = db.Column(db.Text)
+    id = db.Column(db.Integer, primary_key=True)
+    organization = db.Column(db.Text)

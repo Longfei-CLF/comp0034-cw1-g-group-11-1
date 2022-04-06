@@ -18,12 +18,14 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 def signup():
     form = SignupForm(request.form)
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data)
+        user = User(first_name=form.first_name.data,
+                    last_name=form.last_name.data, email=form.email.data)
         user.set_password(form.password.data)
         try:
             db.session.add(user)
             db.session.commit()
-            flash(f"Hello, {user.first_name} {user.last_name}. You are signed up.")
+            flash(
+                f"Hello, {user.first_name} {user.last_name}. You are signed up.")
         except IntegrityError:
             db.session.rollback()
             flash(f'Error, unable to register {form.email.data}. ', 'error')
@@ -38,12 +40,14 @@ def login():
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
         flash(f"You are logged in as {login_form.email.data}")
-        login_user(user, remember=login_form.remember.data, duration=timedelta(minutes=1))
+        login_user(user, remember=login_form.remember.data,
+                   duration=timedelta(minutes=1))
         next = request.args.get('next')
         if not is_safe_url(next):
             return abort(400)
         return redirect(url_for('main.index'))
     return render_template('login.html', title='Login', form=login_form)
+
 
 @auth_bp.route('/logout')
 @login_required
@@ -58,7 +62,6 @@ def load_user(user_id):
     if user_id is not None:
         return User.query.get(user_id)
     return None
-
 
 
 def is_safe_url(target):
@@ -76,14 +79,15 @@ def get_safe_redirect():
         return url
     return '/'
 
+
 @login_manager.unauthorized_handler
 def unauthorized():
     """Redirect unauthorized users to Login page."""
     flash('You must be logged in to view that page.')
     return redirect(url_for('auth.login'))
 
-#@auth_bp.route('/dispatch_request', methods=['GET', 'POST'])
-#def dispatch_request():
+# @auth_bp.route('/dispatch_request', methods=['GET', 'POST'])
+# def dispatch_request():
 #         if load_user.is_authenticated:
 #             return redirect(url_for('index'))
 #         form =request
@@ -95,4 +99,3 @@ def unauthorized():
 #             flash('')
 #             return redirect(url_for('login'))
 #         return render_template('login/reset_password_request.html', title='reset password', form=form)
-
