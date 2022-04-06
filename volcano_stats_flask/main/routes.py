@@ -60,10 +60,10 @@ def create_profile():
     if request.method == 'POST' and form.validate_on_submit():
         # Set the filename for the photo to None, this is the default if the user hasn't chosen to add a profile photo
         filename = None
-        if 'photo' in request.files:
-            if request.files['photo'].filename != '':
+        if 'photo' in request.form:
+            if request.form['photo'].filename != '':
                 # Save the photo using the global variable photos to get the location to save to
-                filename = photos.save(request.files['photo'])
+                filename = photos.save(request.form['photo'])
         p = Profile(org_id=form.organization.data, username=form.username.data, photo=filename, bio=form.bio.data,
                     user_id=current_user.id)
         db.session.add(p)
@@ -80,8 +80,8 @@ def update_profile():
     form = ProfileForm(obj=profile)
     # form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
     if request.method == 'POST' and form.validate_on_submit():
-        if 'photo' in request.files:
-            filename = photos.save(request.files['photo'])
+        if 'photo' in request.form:
+            filename = photos.save(request.file['photo'])
             profile.photo = filename
         # profile.region = form.org_id.data
         profile.bio = form.bio.data
@@ -91,37 +91,19 @@ def update_profile():
     return render_template('profile.html', form=form)
 
 @main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
+@main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
 @login_required
 def display_profiles(username):
-    results = Profile.query.filter_by(username=username).first()
-    return render_template('display_profile.html', results=results)
-
-
-# @main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
-# @login_required
-# def display_profiles(username):
-#     # results = None
-#     # if username is None:
-#     #     if request.method == 'POST':
-#     #         term = request.form['search_term']
-#     #         if term == "":
-#     #             flash("Enter a name to search for")
-#     #             return redirect(url_for("main.index"))
-#     #         results = Profile.query.filter(Profile.username.contains(term)).all()
-#     # else:
-#     results = Profile.query.all()
-#     # Profile.query.filter_by(username=username).all()
-#     # if not results:
-#     #     flash("Username not found.")
-#     #     return redirect(url_for("main.index"))
-#     urls = []
-#     for result in results:
-#         if result.photo:
-#             url = photos.url(result.photo)
-#             urls.append(url)
-#     return render_template('display_profiles.html', profiles=zip(results, urls))
-
-
-
-
-
+    if username is None:
+        results = Profile.query.filter_by(user_id=current_user.id).all()
+    else:
+        results = Profile.query.filter_by(username=username).all()
+    if not results:
+        flash("Username not found.")
+        return redirect(url_for("main.index"))
+    urls = []
+    for result in results:
+        if result.photo:
+            url = photos.url(result.photo)
+            urls.append(url)
+    return render_template('display_profile.html', profiles=zip(results, urls))
