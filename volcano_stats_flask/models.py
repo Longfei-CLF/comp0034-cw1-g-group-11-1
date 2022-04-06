@@ -32,8 +32,6 @@ class Profile (db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     org_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
 
-    # def __repr__(self):
-    #     return '<Profile %r>' % self.username
 
 class Organization (db.Model):
     __tablename__ = "organization"

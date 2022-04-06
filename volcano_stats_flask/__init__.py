@@ -1,7 +1,8 @@
+from pathlib import Path
+
 import dash
 import dash_bootstrap_components as dbc
-
-
+import pandas as pd
 from flask import Flask
 from flask.helpers import get_root_path
 from flask_wtf.csrf import CSRFProtect
@@ -34,7 +35,7 @@ def create_app(config_class_name):
     login_manager.init_app(app)
 
     with app.app_context():
-        from volcano_stats_flask.models import User
+        from volcano_stats_flask.models import User, Profile, Organization
         db.create_all()
 
     from volcano_stats_flask.main.routes import main_bp
@@ -45,6 +46,18 @@ def create_app(config_class_name):
 
     return app
 
+def add_org_data(db_name):
+    """ Adds the list of organizations to the NOCRegion table to the database.
+    :param db_name: the SQLite database initialised for the Flask app
+    :type db_name: SQLAlchemy object
+    """
+    filename = Path(__file__).parent.joinpath('volcano_stats_dash', 'data', 'noc_regions.csv')
+    df = pd.read_csv(filename, usecols=['region'])
+    df.dropna(axis=0, inplace=True)
+    df.drop_duplicates(subset=['region'], keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    df['id'] = df.index
+    df.to_sql(name='region', con=db.engine, if_exists='replace', index=False)
 
 def register_dashapp(app):
     """ Registers the Dash app in the Flask app and make it accessible on the route /dashboard/ """

@@ -1,4 +1,4 @@
-from unittest import result
+
 from flask import Blueprint, render_template, flash
 from flask_login import current_user
 
@@ -9,12 +9,10 @@ from flask import request, redirect, url_for
 
 from volcano_stats_flask import photos, db
 from volcano_stats_flask.main.forms import ProfileForm
-from volcano_stats_flask.models import Profile
+from volcano_stats_flask.models import Profile, Organization
 from volcano_stats_flask.models import User
 
 
-
-# main_bp = Blueprint('main', __name__, url_prefix='/main')
 main_bp = Blueprint('main', __name__)
 photo = FileField('Profile picture', validators=[FileAllowed(img, 'Images only!')])
 
@@ -55,16 +53,13 @@ def account():
 @login_required
 def create_profile():
     form = ProfileForm()
-    #form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
-    # print(len(form.organization.choices))
+    form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('Org')]
+    print(len(form.org_id.choices))
     if request.method == 'POST' and form.validate_on_submit():
-        # Set the filename for the photo to None, this is the default if the user hasn't chosen to add a profile photo
-        filename = None
         if 'photo' in request.form:
             if request.form['photo'].filename != '':
-                # Save the photo using the global variable photos to get the location to save to
                 filename = photos.save(request.form['photo'])
-        p = Profile(org_id=form.organization.data, username=form.username.data, photo=filename, bio=form.bio.data,
+        p = Profile(org_id=form.org_id.data, username=form.username.data, photo=filename, bio=form.bio.data,
                     user_id=current_user.id)
         db.session.add(p)
         db.session.commit()
@@ -76,14 +71,14 @@ def create_profile():
 @login_required
 def update_profile():
     profile = Profile.query.join(User, User.id == Profile.user_id).filter_by(id=current_user.id).first()
-    # https://wtforms.readthedocs.io/en/3.0.x/fields/#wtforms.fields.SelectField fields with dynamic choice
+    
     form = ProfileForm(obj=profile)
-    # form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('region')]
+    form.organization.choices = [(r.id, r.region) for r in Organization.query.order_by('org')]
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.form:
             filename = photos.save(request.file['photo'])
             profile.photo = filename
-        # profile.region = form.org_id.data
+        profile.region = form.org_id.data
         profile.bio = form.bio.data
         profile.username = form.username.data
         db.session.commit()

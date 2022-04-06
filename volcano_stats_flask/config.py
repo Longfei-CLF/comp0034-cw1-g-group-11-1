@@ -10,15 +10,15 @@ import os
 from django.views.generic import View
 
 
-class Config():
+# class Config():
 
-    CSRF_ENABLED = True
-    SECRET_KEY = 'YOU-WILL-SUCCEED'
+#     CSRF_ENABLED = True
+#     SECRET_KEY = 'YOU-WILL-SUCCEED'
 
 
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/flaskblog?charset=utf8'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    POSTS_PRE_PAGE = 3
+#     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/flaskblog?charset=utf8'
+#     SQLALCHEMY_TRACK_MODIFICATIONS = False
+#     POSTS_PRE_PAGE = 3
 
 #Code for sending the email to user, however the function can not run properly.
     # MAIL_SUPPRESS_SEND = False  #
@@ -27,7 +27,7 @@ class Config():
     # MAIL_USE_SSL = True
     # MAIL_PASSWORD = 'xxxxx'
     # MAIL_USERNAME = 'xx'
-    # ADMINS = ['xxxxxx@sina.cn']
+    # ADMINS = ['xxxxxx@outlook.cn']
 
 
 class Config(object):
@@ -36,7 +36,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATA_PATH = pathlib.Path(__file__).parent
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + str(DATA_PATH.joinpath('flask_db.sqlite'))
-    UPLOADED_PHOTOS_DEST = Path(__file__).parent.joinpath("volcano_stats_flask/static/img")
+    UPLOADED_PHOTOS_DEST = Path(__file__).parent.joinpath("static/img")
 
 
 class ProductionConfig(Config):
