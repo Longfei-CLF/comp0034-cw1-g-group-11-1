@@ -30,10 +30,10 @@ class Profile (db.Model):
     photo = db.Column(db.Text)
     bio = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    org_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
+    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
 
 
 class Organization (db.Model):
     __tablename__ = "organization"
     id = db.Column(db.Integer, primary_key = True)
-    Organization = db.Column(db.Text)
+    organization = db.Column(db.Text)

@@ -53,13 +53,13 @@ def account():
 @login_required
 def create_profile():
     form = ProfileForm()
-    form.org_id.choices = [(r.id, r.region) for r in Organization.query.order_by('Org')]
-    print(len(form.org_id.choices))
+    form.organization_id.choices = [(r.id, r.region) for r in Organization.query.order_by('organization')]
+    print(len(form.organization_id.choices))
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.form:
             if request.form['photo'].filename != '':
                 filename = photos.save(request.form['photo'])
-        p = Profile(org_id=form.org_id.data, username=form.username.data, photo=filename, bio=form.bio.data,
+        p = Profile(organization_id=form.organization_id.data, username=form.username.data, photo=filename, bio=form.bio.data,
                     user_id=current_user.id)
         db.session.add(p)
         db.session.commit()

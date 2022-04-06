@@ -51,13 +51,12 @@ def add_org_data(db_name):
     :param db_name: the SQLite database initialised for the Flask app
     :type db_name: SQLAlchemy object
     """
-    filename = Path(__file__).parent.joinpath('volcano_stats_dash', 'data', 'noc_regions.csv')
-    df = pd.read_csv(filename, usecols=['region'])
-    df.dropna(axis=0, inplace=True)
-    df.drop_duplicates(subset=['region'], keep='first', inplace=True)
-    df.reset_index(drop=True, inplace=True)
+    filename = Path(__file__).parent.joinpath("volcano_stats_dash/data/UK_Org.xlsx")
+    df = pd.read_excel(filename, usecols=['organization'])
+    # df.drop_duplicates(subset=['organization'], keep='first', inplace=True)
+    # df.reset_index(drop=True, inplace=True)
     df['id'] = df.index
-    df.to_sql(name='region', con=db.engine, if_exists='replace', index=False)
+    df.to_sql(name='organization', con=db.engine, if_exists='replace', index=False)
 
 def register_dashapp(app):
     """ Registers the Dash app in the Flask app and make it accessible on the route /dashboard/ """
