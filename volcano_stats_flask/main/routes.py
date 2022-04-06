@@ -53,7 +53,7 @@ def account():
 @login_required
 def create_profile():
     form = ProfileForm()
-    form.organization_id.choices = [(r.id, r.region) for r in Organization.query.order_by('organization')]
+    form.organization_id.choices = [(r.id, r.organization) for r in Organization.query.order_by('organization')]
     print(len(form.organization_id.choices))
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.form:
