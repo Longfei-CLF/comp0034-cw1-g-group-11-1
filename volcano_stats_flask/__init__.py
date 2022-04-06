@@ -11,12 +11,12 @@ from flask_login import LoginManager, login_required
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 
-
 csrf = CSRFProtect()
 csrf._exempt_views.add('dash.dash.dispatch')
 db = SQLAlchemy()
 login_manager = LoginManager()
 photos = UploadSet('photos', IMAGES)
+
 
 def create_app(config_class_name):
     """
@@ -46,31 +46,37 @@ def create_app(config_class_name):
 
     return app
 
+
 def add_org_data(db_name):
     """ Adds the list of organizations to the NOCRegion table to the database.
     :param db_name: the SQLite database initialised for the Flask app
     :type db_name: SQLAlchemy object
     """
-    filename = Path(__file__).parent.joinpath("volcano_stats_dash/data/UK_Org.xlsx")
-    df = pd.read_excel(filename, usecols=['organization'])
-    # df.drop_duplicates(subset=['organization'], keep='first', inplace=True)
-    # df.reset_index(drop=True, inplace=True)
+    filename = Path(__file__).parent.joinpath(
+        "volcano_stats_dash/data/UK_Org.csv")
+    df = pd.read_csv(filename, usecols=['organization'])
+    df.drop_duplicates(subset=['organization'], keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
     df['id'] = df.index
-    df.to_sql(name='organization', con=db.engine, if_exists='replace', index=False)
+    df.to_sql(name='organization', con=db.engine,
+              if_exists='replace', index=False)
+
 
 def register_dashapp(app):
     """ Registers the Dash app in the Flask app and make it accessible on the route /dashboard/ """
     from volcano_stats_flask.volcano_stats_dash import layout
     from volcano_stats_flask.volcano_stats_dash.callbacks import register_callbacks
 
-    meta_viewport = {"name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
+    meta_viewport = {"name": "viewport",
+                     "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
     dashapp = dash.Dash(__name__,
-                         server=app,
-                         url_base_pathname='/dashboard/',
-                         assets_folder=get_root_path(__name__) + '/dashboard/assets/',
-                         meta_tags=[meta_viewport],
-                         external_stylesheets=[dbc.themes.SKETCHY])
+                        server=app,
+                        url_base_pathname='/dashboard/',
+                        assets_folder=get_root_path(
+                            __name__) + '/dashboard/assets/',
+                        meta_tags=[meta_viewport],
+                        external_stylesheets=[dbc.themes.SKETCHY])
 
     with app.app_context():
         dashapp.title = 'Dashboard'
@@ -85,4 +91,5 @@ def _protect_dash_views(dash_app):
     """ Protects Dash views with Flask-Login"""
     for view_func in dash_app.server.view_functions:
         if view_func.startswith(dash_app.config.routes_pathname_prefix):
-            dash_app.server.view_functions[view_func] = login_required(dash_app.server.view_functions[view_func])
+            dash_app.server.view_functions[view_func] = login_required(
+                dash_app.server.view_functions[view_func])

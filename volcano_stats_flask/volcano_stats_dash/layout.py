@@ -59,9 +59,9 @@ layout = html.Div([
                     id="crossfilter_VEI",
                     options=[{'label': x, 'value': x} for x in VEI_list],
                     value=[1, 2, 3, 4, 5, 6],
-                    labelStyle={"display": "inline-block","width": "15%" },
+                    labelStyle={"display": "inline-block", "width": "15%"},
                 ),
-            ], style={'padding': 10, 'flex': 1,"display": "inline-block"}),
+            ], style={'padding': 10, 'flex': 1, "display": "inline-block"}),
         ], style={'textAlign': 'center'}),
 
         html.Br(),

@@ -14,7 +14,8 @@ from volcano_stats_flask.models import User
 
 
 main_bp = Blueprint('main', __name__)
-photo = FileField('Profile picture', validators=[FileAllowed(img, 'Images only!')])
+photo = FileField('Profile picture', validators=[
+                  FileAllowed(img, 'Images only!')])
 
 
 @main_bp.route('/')
@@ -39,10 +40,12 @@ def community():
             profile_urls.append(profile_url)
     return render_template('dispaly_community.html', profiles=zip(results, photo_urls, profile_urls))
 
+
 @main_bp.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    profile = Profile.query.join(User, User.id == Profile.user_id).filter(User.id == current_user.id).first()
+    profile = Profile.query.join(User, User.id == Profile.user_id).filter(
+        User.id == current_user.id).first()
     if profile:
         return redirect(url_for('main.display_profiles'))
     else:
@@ -53,8 +56,8 @@ def account():
 @login_required
 def create_profile():
     form = ProfileForm()
-    form.organization_id.choices = [(r.id, r.organization) for r in Organization.query.order_by('organization')]
-    print(len(form.organization_id.choices))
+    form.organization_id.choices = [
+        (r.id, r.organization) for r in Organization.query.order_by('organization')]
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.form:
             if request.form['photo'].filename != '':
@@ -70,10 +73,12 @@ def create_profile():
 @main_bp.route('/update_profile', methods=['GET', 'POST'])
 @login_required
 def update_profile():
-    profile = Profile.query.join(User, User.id == Profile.user_id).filter_by(id=current_user.id).first()
-    
+    profile = Profile.query.join(User, User.id == Profile.user_id).filter_by(
+        id=current_user.id).first()
+
     form = ProfileForm(obj=profile)
-    form.organization.choices = [(r.id, r.region) for r in Organization.query.order_by('org')]
+    form.organization.choices = [(r.id, r.region)
+                                 for r in Organization.query.order_by('org')]
     if request.method == 'POST' and form.validate_on_submit():
         if 'photo' in request.form:
             filename = photos.save(request.file['photo'])
@@ -84,6 +89,7 @@ def update_profile():
         db.session.commit()
         return redirect(url_for('main.display_profiles', username=profile.username))
     return render_template('profile.html', form=form)
+
 
 @main_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
 @main_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})

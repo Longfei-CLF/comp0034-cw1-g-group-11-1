@@ -13,6 +13,7 @@ df = pd.read_excel(data_path)
 
 # Callback for tabs
 
+
 def register_callbacks(app):
     @app.callback(
         Output('tabs-content-graph', 'children'),
@@ -102,13 +103,12 @@ def register_callbacks(app):
 
     # Callback for changes in country in positions
 
-
     @app.callback(
         Output('General_position', 'figure'),
         [Input('crossfilter_country', 'value'),
-        Input('crossfilter_VEI', 'value'),
-        Input('crossfilter_volcano', 'value')
-        ],
+         Input('crossfilter_VEI', 'value'),
+         Input('crossfilter_volcano', 'value')
+         ],
     )
     def update_fig_vol_position(country_value, VEI_value, volcano_value):
         if type(volcano_value) != list:
@@ -138,7 +138,6 @@ def register_callbacks(app):
 
     # Callback for number of eruptions with the change in the volcano
 
-
     @app.callback(
         Output('NumErup', 'figure'),
         Input('General_position', 'hoverData'))
@@ -149,12 +148,11 @@ def register_callbacks(app):
 
     # Callback for values on the cards
 
-
     @app.callback(
         [Output(component_id='Tot_Erup', component_property='children'),
-        Output('Avg_ErupDur', 'children'),
-        Output('Max_VEI', 'children'),
-        ],
+         Output('Avg_ErupDur', 'children'),
+         Output('Max_VEI', 'children'),
+         ],
         Input('General_position', 'hoverData'))
     def update_card_body(hoverData):
         Vol_name_value = hoverData['points'][0]['customdata']
@@ -163,15 +161,14 @@ def register_callbacks(app):
 
     # Callback for changes in country in VEI density and eurption durations
 
-
     @app.callback(
         [Output('VEI_density', 'figure'),
-        Output('NumErup_Dur', 'figure')
-        ],
+         Output('NumErup_Dur', 'figure')
+         ],
         [Input('crossfilter_country', 'value'),
-        Input('crossfilter_VEI', 'value'),
-        Input('crossfilter_volcano', 'value')
-        ],
+         Input('crossfilter_VEI', 'value'),
+         Input('crossfilter_volcano', 'value')
+         ],
     )
     def update_fig_VEI_density_eruptions(country_value, VEI_value, volcano_value):
         if type(volcano_value) != list:
@@ -194,7 +191,9 @@ def register_callbacks(app):
         else:
             dff = df_VEI[df_VEI['Country'].isin(country_value)]
         fig_VEI_density = cc.plot_VEI_density(dff)
-        fig_VEI_density.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
+        fig_VEI_density.update_layout(
+            margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
         fig_NumErup_Dur = cc.plot_NumErup_Dur(dff)
-        fig_NumErup_Dur.update_layout(margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
+        fig_NumErup_Dur.update_layout(
+            margin={'l': 40, 'b': 20, 't': 40, 'r': 0})
         return fig_VEI_density, fig_NumErup_Dur
