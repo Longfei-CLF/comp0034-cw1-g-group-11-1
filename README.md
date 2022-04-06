@@ -1,4 +1,21 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6689081&assignment_repo_type=AssignmentRepo)
+# COMP0034 Coursework 2
+
+# Additional Features:
+
+## Profile: 
+There is a button on the top of the page called "Community", by clicking on this icon, we are able to see all members' brief information, such as their name, organization, and email address. Also, more detailed information about members can be found by clicking on the “view more” button. The user's profile such as bio and photos will be shown. Furthermore, users can use the “My Account” page to change their profiles. In addition, if users want to reset their password, they can also do it on the “My Account” page. (The reset password function can not run properly, and a bug report was attached at the end of README) 
+
+
+## Reset Password by Email
+
+This function was designed for users who forgot their passwords. They can click on “Rest password” button on the login page to reset their password. An email with a reset password link will be sent to the user’s email address. Users can click on the link to reset their password. 
+
+
+## Bug report: 
+
+For this function, the code is not able to send emails to the user. We tried to fix this bug, however, it does not work well. Moreover, we speculate that errors may occur since the lack of authentication code from the user’s email address. Also, other possible reasons might be that the code might fail to redirect the user’s request, and therefore it fails to send an email. Details errors were quoted in the code. 
+
 # COMP0034 Coursework 1
 
 # Introduction
@@ -58,20 +75,6 @@ Add more callback functions to the chart. Also, find more data to increase our d
 https://ucl.zoom.us/rec/play/5MU1BTu14YT-vmgbgRGH0_GOZdWmu2zxhZxnBQyQI_NJhaBPibhAiicWxeM4bb1Ovp_Y3o5wdJt9NIB8.jJf_ngTI6ayhCDjT?autoplay=true&startTime=1645525419000
 
 
-# Additional Features:
-
-## Profile: 
-There is a button on the top of the page called "Community", by clicking on this icon, we are able to see all members' brief information, such as their name, organization, and email address. Also, more detailed information about members can be found by clicking on the “view more” button. The user's profile such as bio and photos will be shown. Furthermore, users can use the “My Account” page to change their profiles. In addition, if users want to reset their password, they can also do it on the “My Account” page. (The reset password function can not run properly, and a bug report was attached at the end of README) 
-
-
-## Reset Password by Email
-
-This function was designed for users who forgot their passwords. They can click on “Rest password” button on the login page to reset their password. An email with a reset password link will be sent to the user’s email address. Users can click on the link to reset their password. 
-
-
-## Bug report: 
-
-For this function, the code is not able to send emails to the user. We tried to fix this bug, however, it does not work well. Moreover, we speculate that errors may occur since the lack of authentication code from the user’s email address. Also, other possible reasons might be that the code might fail to redirect the user’s request, and therefore it fails to send an email. Details errors were quoted in the code. 
 
 # Weekly Report  
 
