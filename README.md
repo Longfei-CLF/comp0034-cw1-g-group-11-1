@@ -21,7 +21,7 @@ For this function, code is not able to sent email to the user. We tried to fix t
 
 I also search a method that require no authentication. However, this will only work in my the local internet which means it can not sent to users around the world. Moreover, the file reset_password_request can not response properly. The problem is in line “{% for error in form.email.errors %} ”. 
 
-For file email_send.py, login.html, and model.py , they all can be reviewed. I already comment out all the bug code and the function of the code is not fully presented.
+For file email_send.py, login.html, and model.py , all of them can be reviewed. I already comment out all the bug code and the function of the code is not fully presented.
 
 
 # COMP0034 Coursework 1
